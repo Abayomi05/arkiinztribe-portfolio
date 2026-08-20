@@ -30,6 +30,7 @@ const projects = [
     description:
       "A community-driven logistics platform bringing delivery coordination, tracking, payments and communication into one experience.",
     tags: ["Flutter", "Node.js", "MongoDB"],
+    href: "/work/arkiinztribe-logistics",
   },
   {
     type: "DIGITAL EXPERIENCE",
@@ -37,6 +38,7 @@ const projects = [
     description:
       "A modern digital presence designed to turn visitors into customers while communicating trust and professionalism.",
     tags: ["Next.js", "TypeScript", "UI/UX"],
+    href: "/work/business-systems",
   },
   {
     type: "BRAND SYSTEM",
@@ -44,6 +46,7 @@ const projects = [
     description:
       "A complete visual direction created to give a growing brand a stronger, more memorable identity.",
     tags: ["Branding", "Creative", "Design"],
+    href: "/work/arkiinztribe",
   },
 ];
 
@@ -165,7 +168,11 @@ export default function Home() {
 
         <div className="project-grid">
           {projects.map((project, index) => (
-            <article className="project-card" key={project.title}>
+            <Link
+              href={project.href}
+              className="project-card"
+              key={project.title}
+            >
               <div className={`project-visual project-${index + 1}`}>
                 <div className="visual-grid" />
                 <div className="visual-content">
@@ -187,7 +194,7 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>

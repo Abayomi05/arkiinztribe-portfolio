@@ -20,24 +20,6 @@ const caseStudies = {
     ],
   },
 
-  logistics: {
-    number: "02",
-    title: "ARKIINZTRIBE Logistics",
-    category: "Technology / Logistics",
-    intro:
-      "A connected logistics platform designed for delivery coordination, communication and tracking.",
-    challenge:
-      "The goal was to bring customers, riders and administrators into one streamlined digital logistics ecosystem.",
-    solution:
-      "The platform architecture combines real-time communication, delivery management, location tracking and customer-facing experiences.",
-    services: [
-      "Product Strategy",
-      "UI/UX Design",
-      "Full-Stack Development",
-      "Real-Time Systems",
-    ],
-  },
-
   "business-systems": {
     number: "03",
     title: "Business Systems",
