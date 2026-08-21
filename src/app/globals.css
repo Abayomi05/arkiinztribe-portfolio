@@ -3073,3 +3073,42 @@ a {
     transition: none;
   }
 }
+
+/* System boot progress */
+.system-boot-progress {
+  height: 2px;
+  margin-top: 18px;
+  padding: 0;
+  overflow: hidden;
+  background: #151a15;
+}
+
+.system-boot-progress span {
+  display: block;
+  height: 100%;
+  background: var(--system-green);
+  box-shadow: 0 0 12px var(--system-green);
+  transition: width 0.3s ease;
+}
+
+@media (max-width: 600px) {
+  .system-boot-inner {
+    width: 88vw;
+  }
+
+  .system-boot-brand {
+    margin-bottom: 20px;
+    font-size: 9px;
+    letter-spacing: 3px;
+  }
+
+  .system-boot-terminal {
+    min-height: 170px;
+    padding: 14px 12px;
+  }
+
+  .system-boot-terminal > div {
+    padding: 7px 0;
+    font-size: 9px;
+  }
+}
