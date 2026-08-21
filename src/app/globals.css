@@ -1261,3 +1261,275 @@ a {
     letter-spacing: -4px;
   }
 }
+
+/* ================================
+   PROJECT INTERFACES
+================================ */
+
+.project-interface {
+  position: absolute;
+  inset: 35px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(8,8,8,0.88);
+  overflow: hidden;
+  z-index: 2;
+  backdrop-filter: blur(8px);
+}
+
+.interface-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  color: #777;
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+
+.interface-top span:first-child {
+  color: var(--green);
+}
+
+.logistics-map {
+  position: absolute;
+  inset: 55px 0 0;
+  background:
+    linear-gradient(rgba(184,255,54,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,255,54,0.045) 1px, transparent 1px);
+  background-size: 35px 35px;
+}
+
+.map-route {
+  position: absolute;
+  width: 65%;
+  height: 45%;
+  left: 17%;
+  top: 25%;
+  border: 1px dashed rgba(184,255,54,0.45);
+  border-radius: 50%;
+  transform: rotate(-18deg);
+}
+
+.map-point {
+  position: absolute;
+  color: var(--green);
+  font-size: 13px;
+  text-shadow: 0 0 20px rgba(184,255,54,0.8);
+}
+
+.point-one {
+  left: 20%;
+  top: 35%;
+}
+
+.point-two {
+  right: 22%;
+  top: 25%;
+}
+
+.point-three {
+  right: 32%;
+  bottom: 20%;
+}
+
+.delivery-status {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  padding: 15px 18px;
+  min-width: 190px;
+  background: #111;
+  border: 1px solid rgba(184,255,54,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.delivery-status small {
+  color: var(--green);
+  font-size: 7px;
+  letter-spacing: 2px;
+}
+
+.delivery-status strong {
+  font-size: 13px;
+}
+
+.delivery-status span {
+  color: #666;
+  font-size: 9px;
+}
+
+.business-interface {
+  padding-bottom: 30px;
+}
+
+.business-heading {
+  padding: 35px 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.business-heading small {
+  color: #666;
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+
+.business-heading strong {
+  font-size: clamp(35px, 5vw, 60px);
+  letter-spacing: -3px;
+}
+
+.business-heading span {
+  color: var(--green);
+  font-size: 9px;
+}
+
+.business-chart {
+  height: 130px;
+  margin: 10px 30px 30px;
+  display: flex;
+  align-items: end;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.business-chart i {
+  flex: 1;
+  display: block;
+  background: rgba(184,255,54,0.35);
+  min-height: 20px;
+}
+
+.business-chart i:nth-child(1) { height: 35%; }
+.business-chart i:nth-child(2) { height: 48%; }
+.business-chart i:nth-child(3) { height: 42%; }
+.business-chart i:nth-child(4) { height: 65%; }
+.business-chart i:nth-child(5) { height: 58%; }
+.business-chart i:nth-child(6) { height: 82%; }
+.business-chart i:nth-child(7) { height: 100%; }
+
+.business-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin: 0 30px;
+  background: rgba(255,255,255,0.08);
+}
+
+.business-stats div {
+  padding: 15px;
+  background: #0d0d0d;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.business-stats small {
+  color: #555;
+  font-size: 7px;
+  letter-spacing: 1px;
+}
+
+.business-stats strong {
+  font-size: 15px;
+}
+
+.brand-interface {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px;
+}
+
+.brand-mark {
+  width: 80px;
+  height: 80px;
+  border: 1px solid var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--green);
+  font-size: 20px;
+  letter-spacing: -2px;
+  margin-bottom: 35px;
+}
+
+.brand-word {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.82;
+}
+
+.brand-word span {
+  color: #777;
+  font-size: clamp(20px, 4vw, 38px);
+  letter-spacing: -2px;
+}
+
+.brand-word strong {
+  font-size: clamp(45px, 8vw, 90px);
+  letter-spacing: -6px;
+}
+
+.brand-system {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #555;
+  font-size: 7px;
+  letter-spacing: 2px;
+}
+
+.brand-system div {
+  display: flex;
+  gap: 6px;
+}
+
+.brand-system i {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.brand-system i:first-child {
+  background: var(--green);
+}
+
+.project-card:hover .project-interface {
+  border-color: rgba(184,255,54,0.3);
+}
+
+@media (max-width: 800px) {
+  .project-interface {
+    inset: 20px;
+  }
+
+  .delivery-status {
+    right: 12px;
+    bottom: 12px;
+    min-width: 160px;
+  }
+
+  .business-heading {
+    padding: 25px 20px 15px;
+  }
+
+  .business-chart {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .business-stats {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .brand-interface {
+    padding: 35px;
+  }
+}

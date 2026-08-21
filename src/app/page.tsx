@@ -187,6 +187,89 @@ export default function Home() {
                 <div className={`project-visual project-${index + 1}`}>
                   <div className="visual-grid" />
 
+                  {index === 0 && (
+                    <div className="project-interface logistics-interface">
+                      <div className="interface-top">
+                        <span>ARKIINZTRIBE</span>
+                        <span>LIVE / 08:42</span>
+                      </div>
+
+                      <div className="logistics-map">
+                        <div className="map-route" />
+                        <span className="map-point point-one">●</span>
+                        <span className="map-point point-two">●</span>
+                        <span className="map-point point-three">●</span>
+                      </div>
+
+                      <div className="delivery-status">
+                        <small>ACTIVE DELIVERY</small>
+                        <strong>Order #AIT-2048</strong>
+                        <span>Rider is 8 mins away</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {index === 1 && (
+                    <div className="project-interface business-interface">
+                      <div className="interface-top">
+                        <span>BUSINESS SYSTEM</span>
+                        <span>OVERVIEW</span>
+                      </div>
+
+                      <div className="business-heading">
+                        <small>MONTHLY PERFORMANCE</small>
+                        <strong>₦8.42M</strong>
+                        <span>+24.8% this month</span>
+                      </div>
+
+                      <div className="business-chart">
+                        <i />
+                        <i />
+                        <i />
+                        <i />
+                        <i />
+                        <i />
+                        <i />
+                      </div>
+
+                      <div className="business-stats">
+                        <div>
+                          <small>ORDERS</small>
+                          <strong>1,284</strong>
+                        </div>
+                        <div>
+                          <small>CONVERSION</small>
+                          <strong>68%</strong>
+                        </div>
+                        <div>
+                          <small>GROWTH</small>
+                          <strong>+31%</strong>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {index === 2 && (
+                    <div className="project-interface brand-interface">
+                      <div className="brand-mark">AIT</div>
+
+                      <div className="brand-word">
+                        <span>ARKIINZ</span>
+                        <strong>TRIBE</strong>
+                      </div>
+
+                      <div className="brand-system">
+                        <span>IDENTITY SYSTEM</span>
+                        <div>
+                          <i />
+                          <i />
+                          <i />
+                          <i />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="visual-content">
                     <span>{project.type}</span>
                     <strong>{project.title}</strong>
