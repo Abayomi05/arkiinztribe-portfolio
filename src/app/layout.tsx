@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-
-
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
@@ -26,7 +24,6 @@ export const metadata: Metadata = {
   authors: [{ name: "ARKIINZTRIBE" }],
   creator: "ARKIINZTRIBE",
   publisher: "ARKIINZTRIBE",
-
   openGraph: {
     title: "ARKIINZTRIBE — Digital Experiences That Move Businesses",
     description:
@@ -43,19 +40,16 @@ export const metadata: Metadata = {
       },
     ],
   },
-
   twitter: {
     card: "summary_large_image",
     title: "ARKIINZTRIBE — Digital Experiences That Move Businesses",
     description:
       "Modern websites, software and digital experiences for ambitious businesses.",
   },
-
   robots: {
     index: true,
     follow: true,
   },
-
   icons: {
     icon: "/favicon.ico",
   },
@@ -67,7 +61,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body>{children}</body>
     </html>
   );

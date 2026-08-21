@@ -158,8 +158,11 @@ export default function Home() {
 
         <div className="hero-terminal">
           <div className="terminal-head">
-            <span>ARK // LIVE CONSOLE</span>
-            <span>● CONNECTED</span>
+            <div className="terminal-title">
+              <span className="terminal-indicator" />
+              <span>ARK // LIVE CONSOLE</span>
+            </div>
+            <span className="terminal-status">CONNECTED</span>
           </div>
 
           <div className="terminal-body">
