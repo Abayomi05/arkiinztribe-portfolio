@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#080808"/>
+  <path d="M0 700L450 300L800 580L1200 180L1600 520" fill="none" stroke="#b8ff36" stroke-opacity=".28" stroke-width="2"/>
+  <path d="M0 760L500 360L820 620L1250 240L1600 560" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="1"/>
+  <circle cx="1180" cy="300" r="210" fill="none" stroke="#b8ff36" stroke-opacity=".18"/>
+  <circle cx="1180" cy="300" r="120" fill="none" stroke="#b8ff36" stroke-opacity=".12"/>
+  <text x="100" y="180" fill="#777" font-family="Arial,sans-serif" font-size="24" letter-spacing="8">ARKIINZTRIBE / 01</text>
+  <text x="100" y="700" fill="#fff" font-family="Arial,sans-serif" font-size="110" font-weight="700">ARKIINZ</text>
+  <text x="100" y="805" fill="#b8ff36" font-family="Arial,sans-serif" font-size="110" font-weight="700">TRIBE.</text>
+</svg>

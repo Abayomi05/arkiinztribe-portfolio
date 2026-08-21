@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -24,6 +25,31 @@ const caseStudies = {
       ["01", "Identity", "Clearer brand positioning"],
       ["02", "Experience", "Responsive digital system"],
       ["03", "Technology", "Modern web foundation"],
+    ],
+  },
+
+  "arkiinztribe-logistics": {
+    number: "03",
+    title: "ARKIINZTRIBE Logistics",
+    category: "Logistics / Technology",
+    eyebrow: "COMMUNITY LOGISTICS PLATFORM",
+    intro:
+      "A connected logistics experience bringing delivery coordination, tracking, payments and communication into one platform.",
+    challenge:
+      "Customers, riders and delivery coordinators need a faster way to communicate, coordinate deliveries and maintain visibility throughout the delivery journey.",
+    solution:
+      "We designed a mobile-first logistics platform focused on real-time communication, delivery coordination, tracking, payments and community-driven logistics operations.",
+    capabilities: [
+      "Product Architecture",
+      "Mobile App Development",
+      "Real-Time Communication",
+      "Logistics Experience",
+    ],
+    stack: ["Flutter", "Node.js", "MongoDB", "Socket.IO"],
+    metrics: [
+      ["01", "Coordination", "Connected delivery workflows"],
+      ["02", "Tracking", "Real-time delivery visibility"],
+      ["03", "Communication", "Direct customer and rider interaction"],
     ],
   },
 
@@ -57,6 +83,35 @@ type Slug = keyof typeof caseStudies;
 
 export function generateStaticParams() {
   return Object.keys(caseStudies).map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+
+  if (!(slug in caseStudies)) {
+    return {};
+  }
+
+  const project = caseStudies[slug as Slug];
+
+  return {
+    title: project.title,
+    description: project.intro,
+    openGraph: {
+      title: `${project.title} — ARKIINZTRIBE`,
+      description: project.intro,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} — ARKIINZTRIBE`,
+      description: project.intro,
+    },
+  };
 }
 
 export default async function CaseStudyPage({
@@ -149,7 +204,7 @@ export default async function CaseStudyPage({
             <div className="premium-capabilities">
               {project.capabilities.map((item, index) => (
                 <div key={item}>
-                  <span>0{index + 1}</span>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
                   <strong>{item}</strong>
                 </div>
               ))}
