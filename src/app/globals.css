@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 :root {
+  --font-display: "Trebuchet MS", Arial, sans-serif;
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-mono: "DejaVu Sans Mono", "Courier New", monospace;
+
   --background: #050505;
   --surface: #0b0b0b;
   --surface-2: #111111;
@@ -22,9 +26,9 @@ html {
 }
 
 body {
+  font-family: var(--font-body);
   background: var(--background);
   color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
 }
 
@@ -2085,7 +2089,7 @@ a {
 .system-boot-brand {
   margin-bottom: 30px;
   color: var(--system-green);
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 5px;
 }
@@ -2101,7 +2105,7 @@ a {
 .system-boot-terminal > div {
   padding: 8px 0;
   color: #737b73;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   line-height: 1.5;
 }
@@ -2146,7 +2150,7 @@ a {
   align-items: center;
   gap: 10px;
   color: #fff;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 2px;
@@ -2175,7 +2179,7 @@ a {
 .system-nav-links a,
 .system-nav-status {
   color: #858b85;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 1.5px;
   text-decoration: none;
@@ -2245,7 +2249,7 @@ a {
   align-items: center;
   gap: 20px;
   color: #6f776f;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 2px;
 }
@@ -2264,6 +2268,7 @@ a {
 }
 
 .system-hero h1 {
+  font-family: var(--font-display);
   margin: 0;
   font-size: clamp(58px, 9vw, 145px);
   line-height: 0.82;
@@ -2300,7 +2305,7 @@ a {
   padding: 15px 18px;
   border: 1px solid #242a24;
   color: #ddd;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 1px;
   text-decoration: none;
@@ -2335,13 +2340,13 @@ a {
 
 .hero-telemetry span {
   color: #555c55;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1px;
 }
 
 .hero-telemetry strong {
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 1px;
 }
@@ -2355,20 +2360,50 @@ a {
   right: 5vw;
   top: 30%;
   z-index: 2;
-  width: min(380px, 34vw);
-  border: 1px solid var(--system-border);
-  background: rgba(4, 7, 4, 0.78);
-  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.45);
+  width: min(360px, 32vw);
+  border: 1px solid rgba(184, 255, 54, 0.22);
+  background:
+    linear-gradient(rgba(184, 255, 54, 0.025) 1px, transparent 1px),
+    rgba(4, 7, 4, 0.92);
+  background-size: 100% 4px;
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.5),
+    inset 0 0 40px rgba(184, 255, 54, 0.025);
 }
 
 .terminal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 38px;
+  padding: 0 13px;
+  border-bottom: 1px solid rgba(184, 255, 54, 0.14);
+  color: #9eaa9d;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+}
+
+.terminal-head span:first-child {
+  color: var(--system-green);
+}
+
+.terminal-head span:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #667066;
+  font-size: 7px;
+}
+
+.terminal-head span:last-child::first-letter {
   color: var(--system-green);
 }
 
 .terminal-body {
   min-height: 160px;
-  padding: 18px;
-  font-family: monospace;
+  padding: 17px;
+  font-family: var(--font-mono);
   font-size: 9px;
   line-height: 2.1;
 }
@@ -2398,7 +2433,7 @@ a {
   align-items: center;
   gap: 12px;
   color: #697069;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 2px;
 }
@@ -2428,6 +2463,7 @@ a {
 }
 
 .system-section-heading {
+  font-family: var(--font-display);
   display: flex;
   align-items: end;
   justify-content: space-between;
@@ -2444,7 +2480,7 @@ a {
   align-items: center;
   gap: 9px;
   color: #667066;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1px;
 }
@@ -2469,7 +2505,7 @@ a {
   justify-content: space-between;
   margin-bottom: 10px;
   color: #626a62;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1px;
 }
@@ -2518,7 +2554,7 @@ a {
   place-items: center;
   background: rgba(3, 4, 3, 0.55);
   color: var(--system-green);
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 2px;
   opacity: 0;
@@ -2566,7 +2602,7 @@ a {
   padding: 6px 9px;
   border: 1px solid #222822;
   color: #697169;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 7px;
   letter-spacing: 1px;
 }
@@ -2590,7 +2626,7 @@ a {
   display: flex;
   justify-content: space-between;
   color: #697169;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 8px;
 }
 
@@ -2650,7 +2686,7 @@ a {
   margin: 0;
   border-bottom: 1px solid #111611;
   color: #9ca49c;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
 }
 
@@ -2663,7 +2699,7 @@ a {
 .lab-command {
   margin-top: 35px;
   color: #6e786e;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
 }
 
@@ -2675,6 +2711,7 @@ a {
 }
 
 .about-system h2 {
+  font-family: var(--font-display);
   margin: 0;
   font-size: clamp(70px, 10vw, 150px);
   line-height: 0.78;
@@ -2708,7 +2745,7 @@ a {
   padding: 17px 0;
   border-bottom: 1px solid var(--system-border);
   color: #697169;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
 }
 
@@ -2734,6 +2771,7 @@ a {
 }
 
 .system-contact h2 {
+  font-family: var(--font-display);
   max-width: 1000px;
   margin: 60px 0 35px;
   font-size: clamp(55px, 9vw, 135px);
@@ -2751,7 +2789,7 @@ a {
 .contact-email {
   margin-top: 25px;
   color: #555d55;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
 }
 
@@ -2763,7 +2801,7 @@ a {
   padding: 30px 5vw;
   border-top: 1px solid var(--system-border);
   color: #555d55;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1px;
 }
@@ -2802,7 +2840,7 @@ a {
 .agent-online,
 .agent-footer {
   color: #687168;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 7px;
   letter-spacing: 1.5px;
 }
@@ -2811,7 +2849,7 @@ a {
   display: block;
   margin-top: 7px;
   color: var(--system-green);
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 25px;
 }
 
@@ -2837,7 +2875,7 @@ a {
 
 .terminal-prompt {
   color: var(--system-green);
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 .agent-message p {
@@ -2857,7 +2895,7 @@ a {
   padding: 13px 0;
   border-bottom: 1px solid #151a15;
   color: #b8beb8;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   text-decoration: none;
 }
@@ -2884,7 +2922,7 @@ a {
   background: #050805;
   color: var(--system-green);
   cursor: pointer;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1px;
 }
