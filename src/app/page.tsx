@@ -1,4 +1,5 @@
 import Link from "next/link";
+import MobileNav from "@/components/MobileNav";
 
 const services = [
   {
@@ -68,6 +69,8 @@ export default function Home() {
         <a href="#contact" className="nav-button">
           Start a project <span>↗</span>
         </a>
+
+        <MobileNav />
       </nav>
 
       <section className="hero">
