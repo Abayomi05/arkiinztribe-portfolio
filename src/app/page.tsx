@@ -1,5 +1,6 @@
 import Link from "next/link";
 import MobileNav from "@/components/MobileNav";
+import MotionReveal from "@/components/MotionReveal";
 
 const services = [
   {
@@ -113,167 +114,188 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="statement">
-        <div className="section-label">01 / THE STUDIO</div>
+      <MotionReveal>
+        <section className="statement">
+          <div className="section-label">01 / THE STUDIO</div>
 
-        <div className="statement-content">
-          <h2>
-            Technology should make your business
-            <span> stronger, not more complicated.</span>
-          </h2>
-
-          <p>
-            We combine technology, design and business thinking to create
-            digital products that are beautiful on the surface and useful
-            underneath.
-          </p>
-        </div>
-      </section>
-
-      <section id="services" className="services section">
-        <div className="section-heading">
-          <div>
-            <div className="section-label">02 / WHAT WE DO</div>
-            <h2>Built around your ambition.</h2>
-          </div>
-
-          <p>
-            From your first idea to a finished digital product, we help turn
-            ambitious concepts into experiences people can actually use.
-          </p>
-        </div>
-
-        <div className="service-grid">
-          {services.map((service) => (
-            <article className="service-card" key={service.number}>
-              <span className="service-number">{service.number}</span>
-              <div>
-                <h3>{service.title}</h3>
-                <p>{service.text}</p>
-              </div>
-              <span className="card-arrow">↗</span>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="work" className="work section">
-        <div className="section-heading">
-          <div>
-            <div className="section-label">03 / SELECTED WORK</div>
-            <h2>Ideas, turned real.</h2>
-          </div>
-
-          <a href="#contact" className="text-link">
-            Have a project? ↗
-          </a>
-        </div>
-
-        <div className="project-grid">
-          {projects.map((project, index) => (
-            <Link
-              href={project.href}
-              className="project-card"
-              key={project.title}
-            >
-              <div className={`project-visual project-${index + 1}`}>
-                <div className="visual-grid" />
-                <div className="visual-content">
-                  <span>{project.type}</span>
-                  <strong>{project.title}</strong>
-                </div>
-                <div className="visual-orb" />
-              </div>
-
-              <div className="project-info">
-                <div>
-                  <h3>{project.title}</h3>
-                  <p>{project.description}</p>
-                </div>
-
-                <div className="tags">
-                  {project.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section id="about" className="about section">
-        <div className="section-label">04 / OUR APPROACH</div>
-
-        <div className="about-layout">
-          <h2>
-            Different
-            <br />
-            <em>together.</em>
-          </h2>
-
-          <div className="about-copy">
-            <p className="large-copy">
-              ARKIINZTRIBE is built on a simple belief: the best digital work
-              happens when technology and creativity work as one.
-            </p>
+          <div className="statement-content">
+            <h2>
+              Technology should make your business
+              <span> stronger, not more complicated.</span>
+            </h2>
 
             <p>
-              We don&apos;t just build things because they look good. We think
-              about the people using them, the business behind them and the
-              result they need to produce.
+              We combine technology, design and business thinking to create
+              digital products that are beautiful on the surface and useful
+              underneath.
             </p>
+          </div>
+        </section>
+      </MotionReveal>
 
-            <div className="process">
-              <div>
-                <span>01</span>
-                Discover
-              </div>
-              <div>
-                <span>02</span>
-                Design
-              </div>
-              <div>
-                <span>03</span>
-                Build
-              </div>
-              <div>
-                <span>04</span>
-                Launch
+      <MotionReveal>
+        <section id="services" className="services section">
+          <div className="section-heading">
+            <div>
+              <div className="section-label">02 / WHAT WE DO</div>
+              <h2>Built around your ambition.</h2>
+            </div>
+
+            <p>
+              From your first idea to a finished digital product, we help turn
+              ambitious concepts into experiences people can actually use.
+            </p>
+          </div>
+
+          <div className="service-grid">
+            {services.map((service) => (
+              <article className="service-card" key={service.number}>
+                <span className="service-number">{service.number}</span>
+
+                <div>
+                  <h3>{service.title}</h3>
+                  <p>{service.text}</p>
+                </div>
+
+                <span className="card-arrow">↗</span>
+              </article>
+            ))}
+          </div>
+        </section>
+      </MotionReveal>
+
+      <MotionReveal>
+        <section id="work" className="work section">
+          <div className="section-heading">
+            <div>
+              <div className="section-label">03 / SELECTED WORK</div>
+              <h2>Ideas, turned real.</h2>
+            </div>
+
+            <a href="#contact" className="text-link">
+              Have a project? ↗
+            </a>
+          </div>
+
+          <div className="project-grid">
+            {projects.map((project, index) => (
+              <Link
+                href={project.href}
+                className="project-card"
+                key={project.title}
+              >
+                <div className={`project-visual project-${index + 1}`}>
+                  <div className="visual-grid" />
+
+                  <div className="visual-content">
+                    <span>{project.type}</span>
+                    <strong>{project.title}</strong>
+                  </div>
+
+                  <div className="visual-orb" />
+                </div>
+
+                <div className="project-info">
+                  <div>
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+                  </div>
+
+                  <div className="tags">
+                    {project.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </MotionReveal>
+
+      <MotionReveal>
+        <section id="about" className="about section">
+          <div className="section-label">04 / OUR APPROACH</div>
+
+          <div className="about-layout">
+            <h2>
+              Different
+              <br />
+              <em>together.</em>
+            </h2>
+
+            <div className="about-copy">
+              <p className="large-copy">
+                ARKIINZTRIBE is built on a simple belief: the best digital work
+                happens when technology and creativity work as one.
+              </p>
+
+              <p>
+                We don&apos;t just build things because they look good. We think
+                about the people using them, the business behind them and the
+                result they need to produce.
+              </p>
+
+              <div className="process">
+                <div>
+                  <span>01</span>
+                  Discover
+                </div>
+
+                <div>
+                  <span>02</span>
+                  Design
+                </div>
+
+                <div>
+                  <span>03</span>
+                  Build
+                </div>
+
+                <div>
+                  <span>04</span>
+                  Launch
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </MotionReveal>
 
-      <section id="contact" className="contact section">
-        <div className="contact-glow" />
+      <MotionReveal>
+        <section id="contact" className="contact section">
+          <div className="contact-glow" />
 
-        <div className="section-label">05 / START A PROJECT</div>
+          <div className="section-label">05 / START A PROJECT</div>
 
-        <div className="contact-content">
-          <h2>
-            Have an idea?
-            <br />
-            <em>Let&apos;s build it.</em>
-          </h2>
+          <div className="contact-content">
+            <h2>
+              Have an idea?
+              <br />
+              <em>Let&apos;s build it.</em>
+            </h2>
 
-          <p>
-            Tell us what you&apos;re working on, what you&apos;re trying to achieve and
-            where you want to go next.
-          </p>
+            <p>
+              Tell us what you&apos;re working on, what you&apos;re trying to
+              achieve and where you want to go next.
+            </p>
 
-          <a href="mailto: johnsonarkiinz@gmail.com" className="primary-button">
-            johnsonarkiinz@gmail.com <span>↗</span>
-          </a>
-        </div>
-      </section>
+            <a
+              href="mailto:johnsonarkiinz@gmail.com"
+              className="primary-button"
+            >
+              johnsonarkiinz@gmail.com <span>↗</span>
+            </a>
+          </div>
+        </section>
+      </MotionReveal>
 
       <footer className="footer">
         <div>
           <Link href="/" className="logo">
             ARKIINZ<span>TRIBE</span>
           </Link>
+
           <p>DIFFERENT TOGETHER.</p>
         </div>
 
