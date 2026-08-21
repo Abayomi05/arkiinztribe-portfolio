@@ -145,7 +145,7 @@ export default function LogisticsCaseStudy() {
         <div className="feature-grid">
           {features.map((feature, index) => (
             <div className="feature-item" key={feature}>
-              <span>0{index + 1}</span>
+              <span>{String(index + 1).padStart(2, "0")}</span>
               <strong>{feature}</strong>
             </div>
           ))}
