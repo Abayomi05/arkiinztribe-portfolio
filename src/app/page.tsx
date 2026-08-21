@@ -99,7 +99,7 @@ export default function Home() {
             </a>
 
             <a href="#contact" className="secondary-button">
-              Let's talk
+              Let&apos;s talk
             </a>
           </div>
         </div>
@@ -216,7 +216,7 @@ export default function Home() {
             </p>
 
             <p>
-              We don't just build things because they look good. We think
+              We don&apos;t just build things because they look good. We think
               about the people using them, the business behind them and the
               result they need to produce.
             </p>
@@ -252,11 +252,11 @@ export default function Home() {
           <h2>
             Have an idea?
             <br />
-            <em>Let's build it.</em>
+            <em>Let&apos;s build it.</em>
           </h2>
 
           <p>
-            Tell us what you're working on, what you're trying to achieve and
+            Tell us what you&apos;re working on, what you&apos;re trying to achieve and
             where you want to go next.
           </p>
 
