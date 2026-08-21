@@ -6,35 +6,49 @@ const caseStudies = {
     number: "01",
     title: "ARKIINZTRIBE",
     category: "Fashion / Digital",
+    eyebrow: "CREATIVE BRAND EXPERIENCE",
     intro:
       "A digital experience built around identity, culture, fashion and modern technology.",
     challenge:
-      "ARKIINZTRIBE needed a digital presence that could communicate its creative identity while making its fashion and technology services feel like one cohesive ecosystem.",
+      "ARKIINZTRIBE needed a digital presence capable of bringing its creative identity, fashion direction and technology services into one coherent ecosystem.",
     solution:
-      "We designed a cinematic digital experience focused on strong typography, visual hierarchy, responsive layouts and a premium interaction system.",
-    services: [
+      "We created a bold digital system combining expressive typography, responsive layouts, visual storytelling and purposeful interaction.",
+    capabilities: [
       "Creative Direction",
-      "UI/UX Design",
-      "Web Development",
       "Brand Experience",
+      "UI / UX Design",
+      "Web Development",
+    ],
+    stack: ["Next.js", "TypeScript", "React", "CSS"],
+    metrics: [
+      ["01", "Identity", "Clearer brand positioning"],
+      ["02", "Experience", "Responsive digital system"],
+      ["03", "Technology", "Modern web foundation"],
     ],
   },
 
   "business-systems": {
-    number: "03",
+    number: "02",
     title: "Business Systems",
     category: "Software / Development",
+    eyebrow: "DIGITAL BUSINESS SYSTEM",
     intro:
       "Purpose-built digital systems designed to simplify operations and help ambitious businesses scale.",
     challenge:
-      "Businesses often rely on disconnected tools and manual processes that make growth unnecessarily complicated.",
+      "Businesses often depend on disconnected tools, spreadsheets and manual processes that create unnecessary friction as operations grow.",
     solution:
-      "We create focused software systems that connect workflows, data and customer experiences into a single digital environment.",
-    services: [
+      "We design focused software systems that connect workflows, data and customer experiences into a single digital environment.",
+    capabilities: [
       "Product Architecture",
       "Web Applications",
       "Automation",
       "System Development",
+    ],
+    stack: ["Next.js", "TypeScript", "Node.js", "MongoDB"],
+    metrics: [
+      ["01", "Workflow", "Connected operations"],
+      ["02", "Visibility", "Centralized business data"],
+      ["03", "Scale", "Built for future growth"],
     ],
   },
 } as const;
@@ -42,9 +56,7 @@ const caseStudies = {
 type Slug = keyof typeof caseStudies;
 
 export function generateStaticParams() {
-  return Object.keys(caseStudies).map((slug) => ({
-    slug,
-  }));
+  return Object.keys(caseStudies).map((slug) => ({ slug }));
 }
 
 export default async function CaseStudyPage({
@@ -61,84 +73,143 @@ export default async function CaseStudyPage({
   const project = caseStudies[slug as Slug];
 
   return (
-    <main className="case-study-page">
-      <section className="case-study-hero section">
-        <Link href="/#work" className="case-back">
-          ← Back to work
+    <main className="premium-case-study">
+      <nav className="navbar case-navbar">
+        <Link href="/" className="logo">
+          ARKIINZ<span>TRIBE</span>
         </Link>
 
-        <div className="case-study-meta">
+        <Link href="/#work" className="back-link">
+          ← Back to work
+        </Link>
+      </nav>
+
+      <section className="premium-case-hero">
+        <div className="premium-case-label">
           <span>{project.number}</span>
+          <span>{project.eyebrow}</span>
           <span>{project.category}</span>
         </div>
 
-        <h1>{project.title}</h1>
+        <h1>
+          {project.title}
+          <em>.</em>
+        </h1>
 
-        <p className="case-study-intro">
-          {project.intro}
-        </p>
+        <p>{project.intro}</p>
       </section>
 
-      <section className="case-study-visual section">
-        <div className="case-visual-frame">
-          <div className="case-browser">
-            <div className="case-browser-bar">
-              <span />
-              <span />
-              <span />
+      <section className="premium-case-showcase">
+        <div className="showcase-window">
+          <div className="showcase-topbar">
+            <div className="showcase-dots">
+              <i />
+              <i />
+              <i />
             </div>
 
-            <div className="case-browser-content">
-              <div className="case-browser-label">
-                ARKIINZTRIBE / {project.category}
-              </div>
+            <span>ARKIINZTRIBE / {project.category}</span>
+          </div>
 
-              <div className="case-browser-title">
-                {project.title}
-              </div>
+          <div className="showcase-body">
+            <div className="showcase-grid" />
 
-              <div className="case-browser-grid">
-                <div />
-                <div />
-                <div />
-              </div>
+            <div className="showcase-copy">
+              <small>{project.number} / DIGITAL SYSTEM</small>
+              <strong>{project.title}</strong>
+              <span>DIFFERENT TOGETHER.</span>
             </div>
+
+            <div className="showcase-orbit" />
+            <div className="showcase-orbit showcase-orbit-two" />
           </div>
         </div>
       </section>
 
-      <section className="case-study-content section">
-        <div className="case-copy">
-          <span className="section-label">01 / THE CHALLENGE</span>
-          <h2>The problem worth solving.</h2>
+      <section className="premium-case-overview">
+        <div className="premium-section-label">01 / THE CHALLENGE</div>
+
+        <div className="premium-overview-copy">
+          <h2>What needed to change.</h2>
           <p>{project.challenge}</p>
         </div>
+      </section>
 
-        <div className="case-copy">
-          <span className="section-label">02 / THE APPROACH</span>
-          <h2>Designed with purpose.</h2>
-          <p>{project.solution}</p>
-        </div>
+      <section className="premium-case-solution">
+        <div className="premium-section-label">02 / THE APPROACH</div>
 
-        <div className="case-copy">
-          <span className="section-label">03 / CAPABILITIES</span>
-          <h2>What we delivered.</h2>
+        <div className="premium-solution-grid">
+          <div>
+            <h2>Designed with purpose.</h2>
+          </div>
 
-          <div className="case-services">
-            {project.services.map((service) => (
-              <span key={service}>
-                {service}
-              </span>
-            ))}
+          <div>
+            <p>{project.solution}</p>
+
+            <div className="premium-capabilities">
+              {project.capabilities.map((item, index) => (
+                <div key={item}>
+                  <span>0{index + 1}</span>
+                  <strong>{item}</strong>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="case-study-footer section">
-        <Link href="/#work">
-          Explore more work ↗
+      <section className="premium-metrics">
+        <div className="premium-section-label">03 / THE SYSTEM</div>
+
+        <div className="premium-metric-grid">
+          {project.metrics.map(([number, title, text]) => (
+            <div key={number} className="premium-metric">
+              <span>{number}</span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="premium-stack">
+        <div className="premium-section-label">04 / TECHNOLOGY</div>
+
+        <h2>The foundation.</h2>
+
+        <div className="premium-stack-grid">
+          {project.stack.map((technology) => (
+            <span key={technology}>{technology}</span>
+          ))}
+        </div>
+      </section>
+
+      <section className="premium-case-cta">
+        <span className="premium-section-label">NEXT STEP</span>
+
+        <h2>
+          Have something
+          <br />
+          <em>worth building?</em>
+        </h2>
+
+        <Link href="/#contact" className="primary-button">
+          Start a project <span>↗</span>
         </Link>
       </section>
+
+      <footer className="footer">
+        <div>
+          <Link href="/" className="logo">
+            ARKIINZ<span>TRIBE</span>
+          </Link>
+          <p>DIFFERENT TOGETHER.</p>
+        </div>
+
+        <div className="footer-bottom">
+          © 2026 ARKIINZTRIBE. All rights reserved.
+        </div>
+      </footer>
     </main>
   );
 }
