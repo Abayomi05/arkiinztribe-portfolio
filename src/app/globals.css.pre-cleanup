@@ -107,7 +107,20 @@ a {
   border-bottom: 1px solid var(--line);
 }
 
-
+.hero-glow {
+  position: absolute;
+  width: 650px;
+  height: 650px;
+  right: -180px;
+  top: 5%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(56, 189, 248, 0.13),
+    transparent 65%
+  );
+  filter: blur(20px);
+}
 
 .hero-content {
   position: relative;
@@ -153,9 +166,20 @@ a {
   font-style: normal;
 }
 
+.hero-description {
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-top: 35px;
+  font-size: 15px;
+}
 
-
-
+.hero-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 35px;
+  align-items: center;
+}
 
 .secondary-button {
   border: 1px solid var(--line);
@@ -170,21 +194,49 @@ a {
   border-color: var(--green);
 }
 
-
+.hero-meta {
+  position: absolute;
+  bottom: 30px;
+  left: 8vw;
+  right: 8vw;
+  display: flex;
+  justify-content: space-between;
+  color: #555;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
 
 .section {
   padding: 130px 8vw;
 }
 
+.statement {
+  padding: 150px 8vw;
+  display: grid;
+  grid-template-columns: 20% 1fr;
+  border-bottom: 1px solid var(--line);
+}
 
+.statement-content {
+  max-width: 900px;
+}
 
+.statement h2 {
+  font-size: clamp(36px, 5vw, 70px);
+  line-height: 1;
+  letter-spacing: -3px;
+  margin-bottom: 40px;
+}
 
+.statement h2 span {
+  color: #555;
+}
 
-
-
-
-
-
+.statement p {
+  max-width: 550px;
+  color: var(--muted);
+  line-height: 1.8;
+}
 
 .section-heading {
   display: flex;
@@ -478,7 +530,13 @@ a {
   margin-top: 10px;
 }
 
-
+.footer-links {
+  display: flex;
+  gap: 30px;
+  justify-content: flex-end;
+  color: #888;
+  font-size: 12px;
+}
 
 .footer-bottom {
   grid-column: span 2;
@@ -729,17 +787,14 @@ a {
    CASE STUDY PAGES
 ================================ */
 
-
-
-.case-study-hero,
-.case-screen {
-  min-height: 600px;
-  border: 1px solid var(--line);
-  background: #101010;
-  overflow: hidden;
-  position: relative;
+.case-study-page,
+.case-study {
+  background: #080808;
+  color: #fff;
+  min-height: 100vh;
 }
 
+.case-study-hero,
 .case-hero {
   padding: 150px 8vw 100px;
   border-bottom: 1px solid var(--line);
@@ -800,25 +855,79 @@ a {
   border-bottom: 1px solid var(--line);
 }
 
+.case-visual-frame {
+  max-width: 1400px;
+  margin: auto;
+}
 
+.case-browser,
+.case-screen {
+  min-height: 600px;
+  border: 1px solid var(--line);
+  background: #101010;
+  overflow: hidden;
+  position: relative;
+}
 
+.case-browser-bar {
+  height: 45px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 18px;
+}
 
+.case-browser-bar span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #555;
+}
 
+.case-browser-content {
+  padding: 80px;
+  min-height: 555px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background:
+    linear-gradient(135deg, transparent 45%, rgba(56, 189, 248, 0.08)),
+    radial-gradient(circle at 75% 30%, rgba(56, 189, 248, 0.1), transparent 35%);
+}
 
+.case-browser-label {
+  color: var(--green);
+  font-size: 10px;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
 
+.case-browser-title {
+  font-size: clamp(50px, 8vw, 120px);
+  font-weight: 700;
+  letter-spacing: -6px;
+  line-height: 0.85;
+}
 
+.case-browser-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 70px;
+}
 
+.case-browser-grid div {
+  height: 100px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+}
 
-
-
-
-
-
-
-
-
-
-
+.case-study-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 100px;
+}
 
 .case-copy {
   max-width: 650px;
@@ -843,9 +952,22 @@ a {
   max-width: 650px;
 }
 
+.case-services,
+.stack-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
 
-
-
+.case-services span,
+.stack-grid span {
+  border: 1px solid var(--line);
+  padding: 12px 16px;
+  color: #aaa;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
 
 .case-section {
   padding: 110px 8vw;
@@ -900,9 +1022,15 @@ a {
   margin-bottom: 40px;
 }
 
+.case-study-footer {
+  padding: 80px 8vw;
+  border-bottom: 1px solid var(--line);
+}
 
-
-
+.case-study-footer a {
+  color: var(--green);
+  font-size: 13px;
+}
 
 .case-meta {
   display: grid;
