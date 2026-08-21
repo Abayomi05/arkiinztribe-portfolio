@@ -1795,6 +1795,27 @@ a {
   }
 }
 
+
+@media (max-width: 800px) {
+  .hero-terminal {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 40px;
+    z-index: 2;
+  }
+
+  .hero-telemetry {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    margin-top: 35px;
+    flex-wrap: wrap;
+  }
+}
+
 /* =========================================
    PROJECT SHOWCASE POLISH
    ========================================= */
@@ -2866,16 +2887,23 @@ a {
   }
 
   .hero-terminal {
+    position: relative;
     top: auto;
-    right: 5vw;
-    bottom: 90px;
-    width: 90vw;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 40px;
+    z-index: 2;
   }
 
   .hero-telemetry {
+    position: relative;
     right: auto;
-    bottom: 30px;
-    left: 5vw;
+    bottom: auto;
+    left: auto;
+    margin-top: 35px;
   }
 
   .system-project-grid {
