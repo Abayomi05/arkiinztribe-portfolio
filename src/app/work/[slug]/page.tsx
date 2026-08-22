@@ -34,6 +34,7 @@ const caseStudies = {
       ["02", "Movement", "Live delivery visibility"],
       ["03", "Payments", "Wallet and escrow foundation"],
     ],
+    visual: "logistics",
   },
 
   arkiinztribe: {
@@ -59,6 +60,7 @@ const caseStudies = {
       ["02", "Experience", "Responsive digital system"],
       ["03", "Technology", "Modern web foundation"],
     ],
+    visual: "brand",
   },
 
   "business-systems": {
@@ -84,6 +86,7 @@ const caseStudies = {
       ["02", "Visibility", "Centralized business data"],
       ["03", "Scale", "Built for future growth"],
     ],
+    visual: "business",
   },
 } as const;
 
@@ -187,14 +190,41 @@ export default async function CaseStudyPage({
           <div className="showcase-body">
             <div className="showcase-grid" />
 
-            <div className="showcase-copy">
-              <small>{project.number} / DIGITAL SYSTEM</small>
-              <strong>{project.title}</strong>
-              <span>DIFFERENT TOGETHER.</span>
-            </div>
+            {project.visual === "logistics" ? (
+              <div className="logistics-dashboard">
+                <div className="logistics-dashboard-head">
+                  <span>ARK / LIVE OPERATIONS</span>
+                  <strong>DELIVERY NETWORK</strong>
+                </div>
+                <div className="logistics-dashboard-grid">
+                  <div className="logistics-map">
+                    <span className="map-route route-one" />
+                    <span className="map-route route-two" />
+                    <span className="map-node node-one" />
+                    <span className="map-node node-two" />
+                    <span className="map-node node-three" />
+                    <div className="map-rider">RIDER 07</div>
+                  </div>
+                  <div className="logistics-status-panel">
+                    <small>ACTIVE DELIVERIES</small>
+                    <strong>24</strong>
+                    <span className="status-online">● NETWORK ONLINE</span>
+                    <div className="logistics-mini-row"><span>RIDER 07</span><b>EN ROUTE</b></div>
+                    <div className="logistics-mini-row"><span>ORDER #1842</span><b>ETA 18m</b></div>
+                    <div className="logistics-mini-row"><span>WALLET</span><b>₦128,400</b></div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="showcase-copy">
+                <small>{project.number} / DIGITAL SYSTEM</small>
+                <strong>{project.title}</strong>
+                <span>DIFFERENT TOGETHER.</span>
+              </div>
+            )}
 
-            <div className="showcase-orbit" />
-            <div className="showcase-orbit showcase-orbit-two" />
+            {project.visual !== "logistics" && <div className="showcase-orbit" />}
+            {project.visual !== "logistics" && <div className="showcase-orbit showcase-orbit-two" />}
           </div>
         </div>
       </section>
