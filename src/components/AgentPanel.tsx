@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 type Message = {
   role: "visitor" | "ark";
@@ -45,11 +45,11 @@ export default function AgentPanel() {
   const [loading, setLoading] = useState(false);
   const [storage, setStorage] = useState("LOCAL SESSION");
   const [ready, setReady] = useState(false);
+  const openAgentRef = useRef<(() => Promise<void>) | null>(null);
 
   useEffect(() => {
-    if (window.location.hash !== "#ark-agent") return;
-
-    void openAgent();
+    if (window.location.hash !== "#ark-agent" || !openAgentRef.current) return;
+    void openAgentRef.current();
   }, []);
 
   async function openAgent() {
@@ -138,6 +138,8 @@ export default function AgentPanel() {
       setLoading(false);
     }
   }
+
+  openAgentRef.current = openAgent;
 
   return (
     <div className={`agent-shell ${open ? "is-open" : ""}`}>
