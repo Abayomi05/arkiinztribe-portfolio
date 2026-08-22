@@ -84,7 +84,9 @@ a {
   font-size: 12px;
   font-weight: 800;
   border-radius: 100px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .nav-button:hover,
@@ -335,7 +337,11 @@ a {
   inset: 0;
   background:
     linear-gradient(135deg, transparent 40%, rgba(184, 255, 54, 0.09)),
-    radial-gradient(circle at 70% 30%, rgba(184, 255, 54, 0.12), transparent 35%);
+    radial-gradient(
+      circle at 70% 30%,
+      rgba(184, 255, 54, 0.12),
+      transparent 35%
+    );
 }
 
 .visual-grid {
@@ -1269,8 +1275,8 @@ a {
 .project-interface {
   position: absolute;
   inset: 35px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(8,8,8,0.88);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(8, 8, 8, 0.88);
   overflow: hidden;
   z-index: 2;
   backdrop-filter: blur(8px);
@@ -1280,7 +1286,7 @@ a {
   display: flex;
   justify-content: space-between;
   padding: 16px 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   color: #777;
   font-size: 8px;
   letter-spacing: 2px;
@@ -1294,8 +1300,8 @@ a {
   position: absolute;
   inset: 55px 0 0;
   background:
-    linear-gradient(rgba(184,255,54,0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(184,255,54,0.045) 1px, transparent 1px);
+    linear-gradient(rgba(184, 255, 54, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184, 255, 54, 0.045) 1px, transparent 1px);
   background-size: 35px 35px;
 }
 
@@ -1305,7 +1311,7 @@ a {
   height: 45%;
   left: 17%;
   top: 25%;
-  border: 1px dashed rgba(184,255,54,0.45);
+  border: 1px dashed rgba(184, 255, 54, 0.45);
   border-radius: 50%;
   transform: rotate(-18deg);
 }
@@ -1314,7 +1320,7 @@ a {
   position: absolute;
   color: var(--green);
   font-size: 13px;
-  text-shadow: 0 0 20px rgba(184,255,54,0.8);
+  text-shadow: 0 0 20px rgba(184, 255, 54, 0.8);
 }
 
 .point-one {
@@ -1339,7 +1345,7 @@ a {
   padding: 15px 18px;
   min-width: 190px;
   background: #111;
-  border: 1px solid rgba(184,255,54,0.2);
+  border: 1px solid rgba(184, 255, 54, 0.2);
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -1393,30 +1399,44 @@ a {
   display: flex;
   align-items: end;
   gap: 8px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .business-chart i {
   flex: 1;
   display: block;
-  background: rgba(184,255,54,0.35);
+  background: rgba(184, 255, 54, 0.35);
   min-height: 20px;
 }
 
-.business-chart i:nth-child(1) { height: 35%; }
-.business-chart i:nth-child(2) { height: 48%; }
-.business-chart i:nth-child(3) { height: 42%; }
-.business-chart i:nth-child(4) { height: 65%; }
-.business-chart i:nth-child(5) { height: 58%; }
-.business-chart i:nth-child(6) { height: 82%; }
-.business-chart i:nth-child(7) { height: 100%; }
+.business-chart i:nth-child(1) {
+  height: 35%;
+}
+.business-chart i:nth-child(2) {
+  height: 48%;
+}
+.business-chart i:nth-child(3) {
+  height: 42%;
+}
+.business-chart i:nth-child(4) {
+  height: 65%;
+}
+.business-chart i:nth-child(5) {
+  height: 58%;
+}
+.business-chart i:nth-child(6) {
+  height: 82%;
+}
+.business-chart i:nth-child(7) {
+  height: 100%;
+}
 
 .business-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   margin: 0 30px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .business-stats div {
@@ -1493,7 +1513,7 @@ a {
   display: block;
   width: 22px;
   height: 22px;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .brand-system i:first-child {
@@ -1501,7 +1521,7 @@ a {
 }
 
 .project-card:hover .project-interface {
-  border-color: rgba(184,255,54,0.3);
+  border-color: rgba(184, 255, 54, 0.3);
 }
 
 @media (max-width: 800px) {
@@ -1608,7 +1628,7 @@ a {
   max-width: 1400px;
   min-height: 650px;
   margin: 0 auto;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #090909;
   overflow: hidden;
 }
@@ -1616,7 +1636,7 @@ a {
 .showcase-topbar {
   height: 52px;
   padding: 0 22px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1647,8 +1667,8 @@ a {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(184,255,54,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(184,255,54,0.04) 1px, transparent 1px);
+    linear-gradient(rgba(184, 255, 54, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184, 255, 54, 0.04) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -1687,9 +1707,9 @@ a {
   height: 480px;
   right: 8%;
   top: 8%;
-  border: 1px solid rgba(184,255,54,0.25);
+  border: 1px solid rgba(184, 255, 54, 0.25);
   border-radius: 50%;
-  box-shadow: 0 0 80px rgba(184,255,54,0.04);
+  box-shadow: 0 0 80px rgba(184, 255, 54, 0.04);
 }
 
 .showcase-orbit-two {
@@ -1697,7 +1717,7 @@ a {
   height: 250px;
   right: 18%;
   top: 28%;
-  border-color: rgba(255,255,255,0.1);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .premium-case-overview,
@@ -1740,7 +1760,7 @@ a {
 }
 
 .premium-case-solution {
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .premium-solution-grid {
@@ -1752,7 +1772,7 @@ a {
 
 .premium-capabilities {
   margin-top: 60px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .premium-capabilities div {
@@ -1760,7 +1780,7 @@ a {
   gap: 25px;
   align-items: center;
   padding: 22px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .premium-capabilities span {
@@ -1773,7 +1793,7 @@ a {
 }
 
 .premium-metrics {
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .premium-metric-grid {
@@ -1781,7 +1801,7 @@ a {
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   margin-top: 80px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .premium-metric {
@@ -1806,7 +1826,7 @@ a {
 }
 
 .premium-stack {
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .premium-stack h2 {
@@ -1821,7 +1841,7 @@ a {
 
 .premium-stack-grid span {
   padding: 15px 22px;
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: #aaa;
   font-size: 11px;
 }
@@ -1829,7 +1849,7 @@ a {
 .premium-case-cta {
   padding: 160px 6vw;
   text-align: center;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .premium-case-cta h2 {
@@ -1967,13 +1987,12 @@ a {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background:
-    linear-gradient(
-      to top,
-      rgba(5, 5, 5, 0.92) 0%,
-      rgba(5, 5, 5, 0.25) 48%,
-      rgba(5, 5, 5, 0.05) 100%
-    );
+  background: linear-gradient(
+    to top,
+    rgba(5, 5, 5, 0.92) 0%,
+    rgba(5, 5, 5, 0.25) 48%,
+    rgba(5, 5, 5, 0.05) 100%
+  );
   pointer-events: none;
 }
 
@@ -2058,6 +2077,8 @@ a {
 .system-page {
   --system-green: #b8ff36;
   --system-green-soft: rgba(184, 255, 54, 0.12);
+  --system-blue: #67d9ff;
+  --system-blue-soft: rgba(103, 217, 255, 0.14);
   --system-black: #030403;
   --system-panel: #080a08;
   --system-border: rgba(184, 255, 54, 0.16);

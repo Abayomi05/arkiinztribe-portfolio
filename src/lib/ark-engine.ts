@@ -159,7 +159,7 @@ export function respondToMessage(
     message: {
       role: "ark",
       content:
-        "PROJECT BRIEF READY. I have enough to prepare the project for review.",
+        "PROJECT BRIEF READY. I’ve captured the core project details and contact email. The brief is ready for review. You can keep talking to me about the project, or use START A PROJECT below to continue.",
     },
     brief: nextBrief,
     ready: true,
