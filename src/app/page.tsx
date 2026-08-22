@@ -73,7 +73,7 @@ export default function Home() {
         <Link href="/" className="system-logo">
           <span className="logo-mark">A</span>
           <span>
-            ARKIINZ<span>TRIBE</span>
+            RKIINZ<span>TRIBE</span>
           </span>
         </Link>
 
@@ -392,7 +392,7 @@ export default function Home() {
         <div className="system-logo">
           <span className="logo-mark">A</span>
           <span>
-            ARKIINZ<span>TRIBE</span>
+            RKIINZ<span>TRIBE</span>
           </span>
         </div>
 
