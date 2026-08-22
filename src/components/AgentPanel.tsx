@@ -28,7 +28,7 @@ const actions = [
   { label: "Show our work", href: "#work" },
   { label: "What we build", href: "#services" },
   { label: "Enter the lab", href: "#lab" },
-  { label: "Start a project", href: "#project-brief" },
+  { label: "Start a project", href: "#ark-agent" },
 ];
 
 const initialMessage: Message = {
