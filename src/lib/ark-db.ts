@@ -119,3 +119,78 @@ export async function getMessages(conversationId: string) {
 
   return result.rows;
 }
+
+export async function createArkLead(
+  conversationId: string,
+  sessionId: string,
+  brief: {
+    name?: string;
+    email?: string;
+    project?: string;
+    problem?: string;
+    goals?: string;
+    timeline?: string;
+    budget?: string;
+  },
+) {
+  if (!pool) return null;
+
+  await ensureArkSchema();
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS ark_leads (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      conversation_id UUID NOT NULL REFERENCES ark_conversations(id) ON DELETE CASCADE,
+      session_id TEXT NOT NULL,
+      name TEXT,
+      email TEXT NOT NULL,
+      project TEXT NOT NULL,
+      problem TEXT,
+      goals TEXT,
+      timeline TEXT,
+      budget TEXT,
+      status TEXT NOT NULL DEFAULT 'new',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+    CREATE INDEX IF NOT EXISTS ark_leads_session_idx
+      ON ark_leads(session_id);
+
+    CREATE INDEX IF NOT EXISTS ark_leads_status_idx
+      ON ark_leads(status);
+  `);
+
+  const result = await pool.query(
+    `INSERT INTO ark_leads (
+      conversation_id,
+      session_id,
+      name,
+      email,
+      project,
+      problem,
+      goals,
+      timeline,
+      budget
+    )
+    SELECT $1, $2, $3, $4, $5, $6, $7, $8, $9
+    WHERE NOT EXISTS (
+      SELECT 1
+      FROM ark_leads
+      WHERE conversation_id = $1
+    )
+    RETURNING id, conversation_id, email, project, status, created_at`,
+    [
+      conversationId,
+      sessionId,
+      brief.name ?? null,
+      brief.email,
+      brief.project,
+      brief.problem ?? null,
+      brief.goals ?? null,
+      brief.timeline ?? null,
+      brief.budget ?? null,
+    ],
+  );
+
+  return result.rows[0] ?? null;
+}
