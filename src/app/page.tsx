@@ -43,9 +43,9 @@ const projects = [
   {
     id: "02",
     type: "DIGITAL EXPERIENCE",
-    title: "Business Website",
+    title: "Business Systems",
     description:
-      "A modern digital presence designed to turn visitors into customers while communicating trust and professionalism.",
+      "Purpose-built digital systems designed to simplify operations, connect workflows and help ambitious businesses scale.",
     tags: ["Next.js", "TypeScript", "UI/UX"],
     href: "/work/business-systems",
     image: "/projects/business-systems.svg",
@@ -54,9 +54,9 @@ const projects = [
   {
     id: "03",
     type: "BRAND SYSTEM",
-    title: "Creative Brand Identity",
+    title: "ARKIINZTRIBE Brand",
     description:
-      "A complete visual direction created to give a growing brand a stronger, more memorable identity.",
+      "A distinctive brand experience combining fashion, culture and digital design into one recognizable system.",
     tags: ["Branding", "Creative", "Design"],
     href: "/work/arkiinztribe",
     image: "/projects/arkiinztribe-brand.svg",
