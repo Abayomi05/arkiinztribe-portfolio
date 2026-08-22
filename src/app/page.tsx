@@ -214,7 +214,7 @@ export default function Home() {
                     alt={`${project.title} project preview`}
                     fill
                     sizes="(max-width: 800px) 100vw, 60vw"
-                    className="project-image"
+                    className={`project-image ${project.id === "03" ? "project-image-logo" : ""}`}
                   />
 
                   <div className="project-overlay">

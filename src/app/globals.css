@@ -1982,6 +1982,13 @@ a {
   filter: saturate(1) contrast(1.08);
 }
 
+/* Preserve the full official ARKIINZTRIBE logo inside the brand project card */
+.project-image-logo {
+  object-fit: contain !important;
+  padding: 8%;
+  background: #080808;
+}
+
 .project-visual::after {
   content: "";
   position: absolute;
