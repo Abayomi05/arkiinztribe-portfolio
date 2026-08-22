@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
     const brief = (body.brief ?? {}) as ProjectBrief;
 
-    const fields = ["project", "problem", "goals", "timeline", "email"] as const;
+    const fields = ["project", "problem", "goals", "timeline", "budget", "email"] as const;
 
     for (const field of fields) {
       if (

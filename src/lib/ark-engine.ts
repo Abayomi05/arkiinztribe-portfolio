@@ -36,13 +36,42 @@ export function createInitialMessage(): ArkMessage {
   };
 }
 
+function questionFor(field: keyof ProjectBrief): string {
+  switch (field) {
+    case "project":
+      return "Good. Let's turn the idea into a project brief. What are you trying to build?";
+
+    case "problem":
+      return "Got it. What problem should this project solve, or what outcome do you want?";
+
+    case "goals":
+      return "Understood. What would success look like for you?";
+
+    case "timeline":
+      return "What timeline are you working with? If you don't have one yet, say 'not decided'.";
+
+    case "budget":
+      return "What's your expected budget? If you're not sure yet, say 'not decided' and I'll help scope a practical budget.";
+
+    case "email":
+      return "Last step for now: what's the best email for the project discussion?";
+
+    default:
+      return "Tell me a little more about the project.";
+  }
+}
+
+function isEmail(value: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
 export function respondToMessage(
   input: string,
   brief: ProjectBrief = {},
 ): { message: ArkMessage; brief: ProjectBrief; ready: boolean } {
   const text = input.trim();
   const lower = text.toLowerCase();
-  const nextBrief = { ...brief };
+  const nextBrief: ProjectBrief = { ...brief };
 
   if (!text) {
     return {
@@ -67,25 +96,6 @@ export function respondToMessage(
   }
 
   if (
-    lower.includes("start") ||
-    lower.includes("idea") ||
-    lower.includes("i want to build") ||
-    lower.includes("want to build") ||
-    lower.includes("need to build") ||
-    lower.includes("looking to build")
-  ) {
-    return {
-      message: {
-        role: "ark",
-        content:
-          "Good. Let's turn the idea into a project brief. What are you trying to build?",
-      },
-      brief: nextBrief,
-      ready: false,
-    };
-  }
-
-  if (
     lower.includes("service") ||
     lower.includes("what do you build") ||
     lower.includes("what can you build")
@@ -100,13 +110,17 @@ export function respondToMessage(
     };
   }
 
+  /*
+   * If the user starts a project from an otherwise empty brief,
+   * treat that first message as the project description.
+   */
   if (!nextBrief.project) {
     nextBrief.project = text;
+
     return {
       message: {
         role: "ark",
-        content:
-          "Got it. What problem should this project solve, or what outcome do you want?",
+        content: questionFor("problem"),
       },
       brief: nextBrief,
       ready: false,
@@ -115,10 +129,11 @@ export function respondToMessage(
 
   if (!nextBrief.problem) {
     nextBrief.problem = text;
+
     return {
       message: {
         role: "ark",
-        content: "Understood. What would success look like for you?",
+        content: questionFor("goals"),
       },
       brief: nextBrief,
       ready: false,
@@ -127,11 +142,11 @@ export function respondToMessage(
 
   if (!nextBrief.goals) {
     nextBrief.goals = text;
+
     return {
       message: {
         role: "ark",
-        content:
-          "What timeline are you working with? If you don't have one yet, say 'not decided'.",
+        content: questionFor("timeline"),
       },
       brief: nextBrief,
       ready: false,
@@ -140,11 +155,24 @@ export function respondToMessage(
 
   if (!nextBrief.timeline) {
     nextBrief.timeline = text;
+
     return {
       message: {
         role: "ark",
-        content:
-          "Last step for now: what's the best email for the project discussion?",
+        content: questionFor("budget"),
+      },
+      brief: nextBrief,
+      ready: false,
+    };
+  }
+
+  if (!nextBrief.budget) {
+    nextBrief.budget = text;
+
+    return {
+      message: {
+        role: "ark",
+        content: questionFor("email"),
       },
       brief: nextBrief,
       ready: false,
@@ -152,6 +180,17 @@ export function respondToMessage(
   }
 
   if (!nextBrief.email) {
+    if (!isEmail(text)) {
+      return {
+        message: {
+          role: "ark",
+          content: "Please send a valid email address so we can discuss the project.",
+        },
+        brief: nextBrief,
+        ready: false,
+      };
+    }
+
     nextBrief.email = text;
   }
 
