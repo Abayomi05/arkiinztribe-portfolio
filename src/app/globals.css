@@ -2169,21 +2169,6 @@ a {
   backdrop-filter: blur(16px);
 }
 
-.system-logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: #fff;
-  font-family: monospace;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-decoration: none;
-}
-
-.system-logo > span:last-child > span {
-  color: var(--system-blue);
-}
 
 .system-nav-links {
   display: flex;
