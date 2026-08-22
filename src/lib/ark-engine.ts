@@ -66,23 +66,34 @@ export function respondToMessage(
     };
   }
 
-  if (lower.includes("service") || lower.includes("build")) {
+  if (
+    lower.includes("start") ||
+    lower.includes("idea") ||
+    lower.includes("i want to build") ||
+    lower.includes("want to build") ||
+    lower.includes("need to build") ||
+    lower.includes("looking to build")
+  ) {
     return {
       message: {
         role: "ark",
-        content: `We currently work across ${SERVICES.join(", ")}. Tell me what you need built and I'll help shape the brief.`,
+        content:
+          "Good. Let's turn the idea into a project brief. What are you trying to build?",
       },
       brief: nextBrief,
       ready: false,
     };
   }
 
-  if (lower.includes("start") || lower.includes("idea")) {
+  if (
+    lower.includes("service") ||
+    lower.includes("what do you build") ||
+    lower.includes("what can you build")
+  ) {
     return {
       message: {
         role: "ark",
-        content:
-          "Good. Let's turn the idea into a project brief. What are you trying to build?",
+        content: `We currently work across ${SERVICES.join(", ")}. Tell me what you need built and I'll help shape the brief.`,
       },
       brief: nextBrief,
       ready: false,
