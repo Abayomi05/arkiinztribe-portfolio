@@ -2178,16 +2178,6 @@ a {
   color: var(--system-blue);
 }
 
-.logo-mark {
-  display: grid;
-  width: 28px;
-  height: 28px;
-  place-items: center;
-  border: 1px solid var(--system-blue);
-  color: var(--system-blue);
-  font-size: 12px;
-}
-
 .system-nav-links {
   display: flex;
   gap: 30px;

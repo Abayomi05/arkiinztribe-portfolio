@@ -393,12 +393,19 @@ export default function Home() {
       </MotionReveal>
 
       <footer className="system-footer">
-        <div className="system-logo">
-          <span className="logo-mark">A</span>
-          <span>
-            RKIINZ<span>TRIBE</span>
-          </span>
-        </div>
+        <Link
+          href="/"
+          className="system-logo"
+          aria-label="ARKIINZTRIBE home"
+        >
+          <Image
+            src="/brand/Arkiinztribe.png"
+            alt="ARKIINZTRIBE"
+            width={180}
+            height={60}
+            className="brand-logo"
+          />
+        </Link>
 
         <div className="footer-system-status">
           <span className="pulse-dot" />

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -137,8 +138,18 @@ export default async function CaseStudyPage({
   return (
     <main className="premium-case-study">
       <nav className="navbar case-navbar">
-        <Link href="/" className="logo">
-          ARKIINZ<span>TRIBE</span>
+        <Link
+          href="/"
+          className="logo case-brand-logo"
+          aria-label="ARKIINZTRIBE home"
+        >
+          <Image
+            src="/brand/Arkiinztribe.png"
+            alt="ARKIINZTRIBE"
+            width={180}
+            height={60}
+            className="brand-logo"
+          />
         </Link>
 
         <Link href="/#work" className="back-link">
@@ -262,8 +273,18 @@ export default async function CaseStudyPage({
 
       <footer className="footer">
         <div>
-          <Link href="/" className="logo">
-            ARKIINZ<span>TRIBE</span>
+          <Link
+            href="/"
+            className="logo case-brand-logo"
+            aria-label="ARKIINZTRIBE home"
+          >
+            <Image
+              src="/brand/Arkiinztribe.png"
+              alt="ARKIINZTRIBE"
+              width={180}
+              height={60}
+              className="brand-logo"
+            />
           </Link>
           <p>DIFFERENT TOGETHER.</p>
         </div>
