@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 type Message = {
   role: "visitor" | "ark";
@@ -45,6 +45,12 @@ export default function AgentPanel() {
   const [loading, setLoading] = useState(false);
   const [storage, setStorage] = useState("LOCAL SESSION");
   const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if (window.location.hash !== "#ark-agent") return;
+
+    void openAgent();
+  }, []);
 
   async function openAgent() {
     setOpen(true);
@@ -213,6 +219,7 @@ export default function AgentPanel() {
       )}
 
       <button
+        id="ark-agent"
         type="button"
         className="agent-trigger"
         onClick={() => {

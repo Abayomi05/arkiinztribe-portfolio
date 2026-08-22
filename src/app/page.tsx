@@ -382,13 +382,11 @@ export default function Home() {
           </p>
 
           <a
-            href="mailto:johnsonarkiinz@gmail.com"
+            href="#ark-agent"
             className="system-button primary"
           >
             TRANSMIT PROJECT BRIEF ↗
           </a>
-
-          <div className="contact-email">johnsonarkiinz@gmail.com</div>
         </section>
       </MotionReveal>
 
