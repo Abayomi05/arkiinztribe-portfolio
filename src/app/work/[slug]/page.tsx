@@ -215,6 +215,33 @@ export default async function CaseStudyPage({
                   </div>
                 </div>
               </div>
+            ) : project.visual === "business" ? (
+              <div className="business-dashboard">
+                <div className="business-dashboard-head">
+                  <span>ARK / BUSINESS OPERATIONS</span>
+                  <strong>SYSTEM ONLINE</strong>
+                </div>
+                <div className="business-dashboard-grid">
+                  <div>
+                    <small>MONTHLY REVENUE</small>
+                    <strong>₦8.42M</strong>
+                    <span>+24.8%</span>
+                  </div>
+                  <div>
+                    <small>ORDERS</small>
+                    <strong>1,284</strong>
+                    <span>+31%</span>
+                  </div>
+                  <div>
+                    <small>WORKFLOWS</small>
+                    <strong>48</strong>
+                    <span>CONNECTED</span>
+                  </div>
+                </div>
+                <div className="business-bars">
+                  <i /><i /><i /><i /><i /><i /><i />
+                </div>
+              </div>
             ) : (
               <div className="showcase-copy">
                 <small>{project.number} / DIGITAL SYSTEM</small>
