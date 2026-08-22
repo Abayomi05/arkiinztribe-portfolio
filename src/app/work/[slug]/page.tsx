@@ -5,8 +5,8 @@ import { notFound } from "next/navigation";
 const caseStudies = {
   arkiinztribe: {
     number: "01",
-    title: "ARKIINZTRIBE",
-    category: "Fashion / Digital",
+    title: "ARKIINZTRIBE Brand",
+    category: "Fashion / Brand Experience",
     eyebrow: "CREATIVE BRAND EXPERIENCE",
     intro:
       "A digital experience built around identity, culture, fashion and modern technology.",

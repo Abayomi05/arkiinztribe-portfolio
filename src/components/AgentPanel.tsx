@@ -1,6 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
+
+type Message = {
+  role: "visitor" | "ark";
+  content: string;
+};
+
+type ConversationResponse = {
+  conversation: {
+    id: string;
+    sessionId: string;
+    brief: Record<string, unknown>;
+    ready: boolean;
+    messages: Message[];
+  };
+  storage: string;
+};
+
+type MessageResponse = {
+  message: Message;
+  brief: Record<string, unknown>;
+  ready: boolean;
+};
 
 const actions = [
   { label: "Show our work", href: "#work" },
@@ -9,8 +31,107 @@ const actions = [
   { label: "Start a project", href: "#contact" },
 ];
 
+const initialMessage: Message = {
+  role: "ark",
+  content:
+    "I’m ARK. Tell me what you’re building, what problem you’re solving, or ask me about our systems.",
+};
+
 export default function AgentPanel() {
   const [open, setOpen] = useState(false);
+  const [conversationId, setConversationId] = useState("");
+  const [messages, setMessages] = useState<Message[]>([initialMessage]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [storage, setStorage] = useState("LOCAL SESSION");
+  const [ready, setReady] = useState(false);
+
+  async function openAgent() {
+    setOpen(true);
+
+    if (conversationId) return;
+
+    try {
+      const response = await fetch("/api/ark/conversations", {
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        throw new Error("Unable to initialize ARK.");
+      }
+
+      const data = (await response.json()) as ConversationResponse;
+
+      setConversationId(data.conversation.id);
+      setMessages(
+        data.conversation.messages?.length
+          ? data.conversation.messages
+          : [initialMessage],
+      );
+      setStorage(data.storage);
+    } catch {
+      setMessages([
+        {
+          role: "ark",
+          content:
+            "ARK could not initialize the session. You can still use the project links below.",
+        },
+      ]);
+    }
+  }
+
+  async function sendMessage(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const content = input.trim();
+
+    if (!content || loading || !conversationId) return;
+
+    setInput("");
+    setLoading(true);
+
+    setMessages((current) => [...current, { role: "visitor", content }]);
+
+    try {
+      const response = await fetch("/api/ark/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          conversationId,
+          content,
+        }),
+      });
+
+      const data = (await response.json()) as
+        MessageResponse | { error?: string };
+
+      if (!response.ok || !("message" in data)) {
+        throw new Error(
+          "error" in data && data.error
+            ? data.error
+            : "Unable to process message.",
+        );
+      }
+
+      setMessages((current) => [...current, data.message]);
+      setReady(data.ready);
+    } catch (error) {
+      setMessages((current) => [
+        ...current,
+        {
+          role: "ark",
+          content:
+            error instanceof Error
+              ? error.message
+              : "Unable to process that message.",
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className={`agent-shell ${open ? "is-open" : ""}`}>
@@ -27,13 +148,47 @@ export default function AgentPanel() {
             </span>
           </div>
 
-          <div className="agent-message">
-            <span className="terminal-prompt">&gt;</span>
-            <p>
-              I&apos;m ARK. I can guide you through our systems, projects and
-              capabilities.
-            </p>
+          <div className="agent-chat" aria-live="polite">
+            {messages.map((message, index) => (
+              <div
+                className={`agent-chat-message ${message.role}`}
+                key={`${message.role}-${index}`}
+              >
+                <span className="terminal-prompt">
+                  {message.role === "ark" ? ">" : "$"}
+                </span>
+                <p>{message.content}</p>
+              </div>
+            ))}
+
+            {loading && (
+              <div className="agent-chat-message ark">
+                <span className="terminal-prompt">&gt;</span>
+                <p>PROCESSING...</p>
+              </div>
+            )}
           </div>
+
+          <form className="agent-input" onSubmit={sendMessage}>
+            <span>&gt;</span>
+            <input
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+              placeholder={
+                conversationId ? "Talk to ARK..." : "Initializing..."
+              }
+              disabled={loading || !conversationId}
+              maxLength={2000}
+              aria-label="Message ARK"
+            />
+            <button
+              type="submit"
+              disabled={loading || !input.trim() || !conversationId}
+              aria-label="Send message"
+            >
+              ↗
+            </button>
+          </form>
 
           <div className="agent-actions">
             {actions.map((action) => (
@@ -49,8 +204,10 @@ export default function AgentPanel() {
           </div>
 
           <div className="agent-footer">
-            <span>AGENT STATUS</span>
-            <span>READY</span>
+            <span>
+              {storage === "NEON" ? "DATABASE CONNECTED" : "AGENT STATUS"}
+            </span>
+            <span>{ready ? "BRIEF READY" : storage}</span>
           </div>
         </div>
       )}
@@ -58,14 +215,18 @@ export default function AgentPanel() {
       <button
         type="button"
         className="agent-trigger"
-        onClick={() => setOpen((value) => !value)}
+        onClick={() => {
+          if (!open) {
+            void openAgent();
+          } else {
+            setOpen(false);
+          }
+        }}
         aria-expanded={open}
         aria-label={open ? "Close ARK agent" : "Open ARK agent"}
       >
         <span className="agent-trigger-icon">{open ? "×" : "A"}</span>
-        <span>
-          {open ? "CLOSE" : "ASK ARK"}
-        </span>
+        <span>{open ? "CLOSE" : "ASK ARK"}</span>
       </button>
     </div>
   );

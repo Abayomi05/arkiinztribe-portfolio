@@ -43,9 +43,9 @@ const projects = [
   {
     id: "02",
     type: "DIGITAL EXPERIENCE",
-    title: "Business Website",
+    title: "Business Systems",
     description:
-      "A modern digital presence designed to turn visitors into customers while communicating trust and professionalism.",
+      "Purpose-built digital systems designed to simplify operations, connect workflows and help ambitious businesses scale.",
     tags: ["Next.js", "TypeScript", "UI/UX"],
     href: "/work/business-systems",
     image: "/projects/business-systems.svg",
@@ -54,22 +54,14 @@ const projects = [
   {
     id: "03",
     type: "BRAND SYSTEM",
-    title: "Creative Brand Identity",
+    title: "ARKIINZTRIBE Brand",
     description:
-      "A complete visual direction created to give a growing brand a stronger, more memorable identity.",
+      "A distinctive brand experience combining fashion, culture and digital design into one recognizable system.",
     tags: ["Branding", "Creative", "Design"],
     href: "/work/arkiinztribe",
     image: "/projects/arkiinztribe-brand.svg",
     status: "ACTIVE",
   },
-];
-
-const terminalLines = [
-  "> connecting to arkiinztribe...",
-  "> loading project database...",
-  "> loading design engine...",
-  "> loading development stack...",
-  "> initializing ARK agent...",
 ];
 
 export default function Home() {
@@ -155,27 +147,6 @@ export default function Home() {
             <strong className="green-text">ONLINE</strong>
           </div>
         </div>
-
-        <div className="hero-terminal">
-          <div className="terminal-head">
-            <div className="terminal-title">
-              <span className="terminal-indicator" />
-              <span>ARK // LIVE CONSOLE</span>
-            </div>
-            <span className="terminal-status">CONNECTED</span>
-          </div>
-
-          <div className="terminal-body">
-            {terminalLines.map((line, index) => (
-              <div className="terminal-line" key={line}>
-                <span>{line}</span>
-                {index === terminalLines.length - 1 && (
-                  <span className="typing-cursor">_</span>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       <MotionReveal>
@@ -192,9 +163,9 @@ export default function Home() {
             </h2>
 
             <p>
-              ARKIINZTRIBE combines engineering, design and business thinking
-              to build digital systems that are useful underneath and
-              unmistakable on the surface.
+              ARKIINZTRIBE combines engineering, design and business thinking to
+              build digital systems that are useful underneath and unmistakable
+              on the surface.
             </p>
           </div>
         </section>
@@ -225,7 +196,9 @@ export default function Home() {
                 key={project.title}
               >
                 <div className="project-topline">
-                  <span>{project.id} / {project.type}</span>
+                  <span>
+                    {project.id} / {project.type}
+                  </span>
                   <span className="project-status">{project.status}</span>
                 </div>
 
@@ -361,15 +334,23 @@ export default function Home() {
               </p>
 
               <p>
-                We think about the people using the product, the business
-                behind it and the result it needs to produce.
+                We think about the people using the product, the business behind
+                it and the result it needs to produce.
               </p>
 
               <div className="process-system">
-                <span><b>01</b> DISCOVER</span>
-                <span><b>02</b> DESIGN</span>
-                <span><b>03</b> BUILD</span>
-                <span><b>04</b> LAUNCH</span>
+                <span>
+                  <b>01</b> DISCOVER
+                </span>
+                <span>
+                  <b>02</b> DESIGN
+                </span>
+                <span>
+                  <b>03</b> BUILD
+                </span>
+                <span>
+                  <b>04</b> LAUNCH
+                </span>
               </div>
             </div>
           </div>
@@ -403,16 +384,16 @@ export default function Home() {
             TRANSMIT PROJECT BRIEF ↗
           </a>
 
-          <div className="contact-email">
-            johnsonarkiinz@gmail.com
-          </div>
+          <div className="contact-email">johnsonarkiinz@gmail.com</div>
         </section>
       </MotionReveal>
 
       <footer className="system-footer">
         <div className="system-logo">
           <span className="logo-mark">A</span>
-          <span>ARKIINZ<span>TRIBE</span></span>
+          <span>
+            ARKIINZ<span>TRIBE</span>
+          </span>
         </div>
 
         <div className="footer-system-status">
