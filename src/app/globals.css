@@ -2611,7 +2611,7 @@ a {
 }
 
 .project-1 .system-project-visual {
-  height: 500px;
+  height: 440px;
 }
 
 .project-grid-bg {
@@ -3349,12 +3349,12 @@ a {
 }
 
 .system-project.project-1 .project-image {
-  padding: 4%;
-  filter: contrast(1.08) saturate(0.92);
+  padding: 7%;
+  filter: contrast(1.06) saturate(0.92);
 }
 
 .system-project.project-1:hover .project-image {
-  transform: scale(1.045) translateX(6px);
+  transform: scale(1.018) translateX(2px);
 }
 
 /* BUSINESS SYSTEMS — dashboard / intelligence */
@@ -3538,6 +3538,26 @@ a {
 .agent-actions a:focus-visible {
   outline: 1px solid var(--system-blue);
   outline-offset: 3px;
+}
+
+/* Final project-card proportions */
+@media (min-width: 801px) {
+  .system-project-visual {
+    height: 380px;
+  }
+
+  .system-project.project-1 .system-project-visual {
+    height: 440px;
+  }
+
+  .system-project.project-1 .project-image {
+    padding: 7%;
+  }
+
+  .system-project.project-2 .project-image,
+  .system-project.project-3 .project-image {
+    padding: 6%;
+  }
 }
 
 /* Project cards: stronger interaction without hurting mobile */
