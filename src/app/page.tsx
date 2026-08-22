@@ -70,11 +70,15 @@ export default function Home() {
       <SystemBoot />
 
       <nav className="system-navbar">
-        <Link href="/" className="system-logo">
-          <span className="logo-mark">A</span>
-          <span>
-            RKIINZ<span>TRIBE</span>
-          </span>
+        <Link href="/" className="system-logo" aria-label="ARKIINZTRIBE home">
+          <Image
+            src="/brand/Arkiinztribe.png"
+            alt="ARKIINZTRIBE"
+            width={180}
+            height={60}
+            priority
+            className="brand-logo"
+          />
         </Link>
 
         <div className="system-nav-links">
