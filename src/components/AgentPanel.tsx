@@ -123,6 +123,38 @@ export default function AgentPanel() {
 
       setMessages((current) => [...current, data.message]);
       setReady(data.ready);
+
+      if (data.ready) {
+        const leadResponse = await fetch("/api/ark/leads", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            conversationId,
+            brief: data.brief,
+          }),
+        });
+
+        const leadData = (await leadResponse.json()) as {
+          message?: string;
+          error?: string;
+        };
+
+        if (!leadResponse.ok) {
+          throw new Error(
+            leadData.error || "Unable to transmit the project brief.",
+          );
+        }
+
+        setMessages((current) => [
+          ...current,
+          {
+            role: "ark",
+            content: "TRANSMISSION COMPLETE. Your project brief has been securely received.",
+          },
+        ]);
+      }
     } catch (error) {
       setMessages((current) => [
         ...current,
