@@ -59,7 +59,7 @@ const projects = [
       "A fashion and digital brand system bringing identity, culture, creative direction and technology into one recognizable experience.",
     tags: ["Branding", "Creative", "Design"],
     href: "/work/arkiinztribe",
-    image: "/projects/arkiinztribe-brand.svg",
+    image: "/brand/Arkiinztribe.png",
     status: "ACTIVE",
   },
 ];
