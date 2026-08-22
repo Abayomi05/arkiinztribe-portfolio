@@ -160,6 +160,18 @@ export async function createArkLead(
       ON ark_leads(status);
   `);
 
+  const existing = await pool.query(
+    `SELECT id, conversation_id, email, project, status, created_at
+     FROM ark_leads
+     WHERE conversation_id = $1
+     LIMIT 1`,
+    [conversationId],
+  );
+
+  if (existing.rows[0]) {
+    return existing.rows[0];
+  }
+
   const result = await pool.query(
     `INSERT INTO ark_leads (
       conversation_id,
@@ -172,12 +184,7 @@ export async function createArkLead(
       timeline,
       budget
     )
-    SELECT $1, $2, $3, $4, $5, $6, $7, $8, $9
-    WHERE NOT EXISTS (
-      SELECT 1
-      FROM ark_leads
-      WHERE conversation_id = $1
-    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     RETURNING id, conversation_id, email, project, status, created_at`,
     [
       conversationId,
