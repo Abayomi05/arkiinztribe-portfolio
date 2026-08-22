@@ -3354,3 +3354,205 @@ a {
     transform: none;
   }
 }
+
+
+/* =========================================
+   FINAL UX POLISH — ARK + PROJECTS
+   ========================================= */
+
+/* ARK agent: desktop */
+.agent-shell {
+  right: 24px;
+  bottom: 24px;
+}
+
+.agent-panel {
+  overflow: hidden;
+  border-color: rgba(77, 163, 255, 0.28);
+  border-radius: 2px;
+}
+
+.agent-chat {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(77, 163, 255, 0.35) transparent;
+}
+
+.agent-chat::-webkit-scrollbar {
+  width: 4px;
+}
+
+.agent-chat::-webkit-scrollbar-thumb {
+  background: rgba(77, 163, 255, 0.35);
+}
+
+.agent-chat-message {
+  padding: 0 20px;
+}
+
+.agent-chat-message p {
+  color: #aeb7ae;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.agent-input {
+  margin: 0 20px;
+}
+
+.agent-input input {
+  min-height: 32px;
+  font-size: 12px;
+}
+
+.agent-input button {
+  min-width: 34px;
+  min-height: 34px;
+}
+
+.agent-actions a {
+  min-height: 42px;
+  align-items: center;
+}
+
+.agent-trigger {
+  min-height: 52px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.agent-trigger:hover {
+  transform: translateY(-2px);
+  background: #070c08;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.48);
+}
+
+.agent-trigger:focus-visible,
+.agent-input button:focus-visible,
+.agent-input input:focus-visible,
+.agent-actions a:focus-visible {
+  outline: 1px solid var(--system-blue);
+  outline-offset: 3px;
+}
+
+/* Project cards: stronger interaction without hurting mobile */
+.system-project {
+  border-radius: 2px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.system-project-visual {
+  isolation: isolate;
+}
+
+.project-overlay {
+  pointer-events: none;
+}
+
+.system-project-info {
+  min-width: 0;
+}
+
+.project-tags {
+  max-width: 260px;
+}
+
+.project-tags span {
+  white-space: nowrap;
+}
+
+/* Mobile UX */
+@media (max-width: 600px) {
+  .agent-shell {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  .agent-panel {
+    width: min(390px, calc(100vw - 24px));
+    margin-bottom: 8px;
+  }
+
+  .agent-header {
+    padding: 16px;
+  }
+
+  .agent-chat {
+    max-height: min(42vh, 300px);
+    padding: 14px 0;
+  }
+
+  .agent-chat-message {
+    padding: 0 16px;
+  }
+
+  .agent-input {
+    margin: 0 16px;
+  }
+
+  .agent-actions {
+    padding: 0 16px 16px;
+  }
+
+  .agent-footer {
+    padding: 11px 16px;
+  }
+
+  .agent-trigger {
+    min-height: 50px;
+  }
+
+  .system-project-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .system-project.project-1 {
+    grid-column: auto;
+  }
+
+  .system-project-visual,
+  .project-1 .system-project-visual {
+    height: min(82vw, 390px);
+  }
+
+  .system-project-info {
+    display: block;
+    padding: 16px 0 4px;
+  }
+
+  .system-project-info h3 {
+    font-size: 22px;
+  }
+
+  .system-project-info p {
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  .project-tags {
+    max-width: none;
+    margin-top: 14px;
+  }
+
+  .project-overlay {
+    display: none;
+  }
+
+  .system-project .project-image {
+    padding: 7%;
+  }
+}
+
+/* Respect reduced-motion users */
+@media (prefers-reduced-motion: reduce) {
+  .agent-trigger {
+    transition: none;
+  }
+
+  .agent-trigger:hover {
+    transform: none;
+  }
+}
