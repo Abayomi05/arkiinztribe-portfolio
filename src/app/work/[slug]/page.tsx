@@ -3,6 +3,38 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 const caseStudies = {
+  "arkiinztribe-logistics": {
+    number: "01",
+    title: "ARKIINZTRIBE Logistics",
+    category: "Logistics / Mobile Platform",
+    eyebrow: "CONNECTED LOGISTICS ECOSYSTEM",
+    intro:
+      "One connected logistics ecosystem bringing customers, riders, businesses and operations together through real-time technology.",
+    challenge:
+      "Delivery operations can become fragmented across calls, messages, manual coordination and disconnected payment workflows. ARKIINZTRIBE Logistics was conceived to bring those moving parts into one coordinated digital environment.",
+    solution:
+      "We designed a mobile-first logistics platform around real-time communication, rider coordination, location visibility and digital payments, creating a foundation for a more connected delivery experience.",
+    capabilities: [
+      "Real-time Logistics Chat",
+      "Rider Delivery System",
+      "Live GPS Tracking",
+      "Wallet & Escrow Payments",
+    ],
+    stack: [
+      "Flutter",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Socket.IO",
+      "Paystack",
+    ],
+    metrics: [
+      ["01", "Communication", "Real-time logistics chat"],
+      ["02", "Movement", "Live delivery visibility"],
+      ["03", "Payments", "Wallet and escrow foundation"],
+    ],
+  },
+
   arkiinztribe: {
     number: "01",
     title: "ARKIINZTRIBE Brand",
