@@ -34,7 +34,7 @@ const projects = [
     type: "LOGISTICS PLATFORM",
     title: "ARKIINZTRIBE Logistics",
     description:
-      "A community-driven logistics platform bringing delivery coordination, tracking, payments and communication into one experience.",
+      "A logistics platform connecting businesses, riders and customers through delivery coordination, tracking, communication and payments.",
     tags: ["Flutter", "Node.js", "MongoDB"],
     href: "/work/arkiinztribe-logistics",
     image: "/projects/arkiinztribe.svg",
@@ -42,10 +42,10 @@ const projects = [
   },
   {
     id: "02",
-    type: "DIGITAL EXPERIENCE",
+    type: "BUSINESS OPERATIONS",
     title: "Business Systems",
     description:
-      "Purpose-built digital systems designed to simplify operations, connect workflows and help ambitious businesses scale.",
+      "A focused digital operations system built to replace disconnected workflows with clearer data, automation and centralized business control.",
     tags: ["Next.js", "TypeScript", "UI/UX"],
     href: "/work/business-systems",
     image: "/projects/business-systems.svg",
@@ -56,7 +56,7 @@ const projects = [
     type: "BRAND SYSTEM",
     title: "ARKIINZTRIBE Brand",
     description:
-      "A distinctive brand experience combining fashion, culture and digital design into one recognizable system.",
+      "A fashion and digital brand system bringing identity, culture, creative direction and technology into one recognizable experience.",
     tags: ["Branding", "Creative", "Design"],
     href: "/work/arkiinztribe",
     image: "/projects/arkiinztribe-brand.svg",
