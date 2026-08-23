@@ -2328,6 +2328,7 @@ a {
 .contact-grid-bg {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   opacity: 0.12;
   background-image:
     linear-gradient(rgba(77, 163, 255, 0.18) 1px, transparent 1px),
@@ -4283,4 +4284,3 @@ a {
     border-top: 1px solid var(--system-border);
   }
 }
-

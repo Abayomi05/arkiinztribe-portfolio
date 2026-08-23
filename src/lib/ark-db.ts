@@ -64,7 +64,12 @@ export async function getConversation(id: string, sessionId: string) {
     [id, sessionId],
   );
 
-  return result.rows[0] ?? null;
+  return result.rows[0]
+    ? {
+        ...result.rows[0],
+        created: true,
+      }
+    : null;
 }
 
 export async function updateConversation(
@@ -83,7 +88,12 @@ export async function updateConversation(
     [JSON.stringify(brief), ready, id, sessionId],
   );
 
-  return result.rows[0] ?? null;
+  return result.rows[0]
+    ? {
+        ...result.rows[0],
+        created: true,
+      }
+    : null;
 }
 
 export async function addMessage(
@@ -103,7 +113,12 @@ export async function addMessage(
     [conversationId, role, content],
   );
 
-  return result.rows[0] ?? null;
+  return result.rows[0]
+    ? {
+        ...result.rows[0],
+        created: true,
+      }
+    : null;
 }
 
 export async function getMessages(conversationId: string) {
@@ -169,7 +184,10 @@ export async function createArkLead(
   );
 
   if (existing.rows[0]) {
-    return existing.rows[0];
+    return {
+      ...existing.rows[0],
+      created: false,
+    };
   }
 
   const result = await pool.query(
@@ -199,5 +217,10 @@ export async function createArkLead(
     ],
   );
 
-  return result.rows[0] ?? null;
+  return result.rows[0]
+    ? {
+        ...result.rows[0],
+        created: true,
+      }
+    : null;
 }
