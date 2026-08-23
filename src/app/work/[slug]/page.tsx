@@ -38,7 +38,7 @@ const caseStudies = {
   },
 
   arkiinztribe: {
-    number: "01",
+    number: "03",
     title: "ARKIINZTRIBE Brand",
     category: "Fashion / Brand Experience",
     eyebrow: "CREATIVE BRAND EXPERIENCE",

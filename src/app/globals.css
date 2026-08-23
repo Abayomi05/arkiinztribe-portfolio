@@ -1296,14 +1296,6 @@ a {
   color: var(--blue);
 }
 
-.logistics-map {
-  position: absolute;
-  inset: 55px 0 0;
-  background:
-    linear-gradient(rgba(77, 163, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(77, 163, 255, 0.045) 1px, transparent 1px);
-  background-size: 35px 35px;
-}
 
 .map-route {
   position: absolute;
@@ -3887,3 +3879,408 @@ a {
     transition: none;
   }
 }
+
+/* =========================================
+   FINAL PROJECT DATABASE VISUAL SYSTEM
+   ========================================= */
+
+.system-project-visual {
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--system-border);
+  background: #050605;
+}
+
+/* Shared image behavior */
+.system-project .project-image {
+  z-index: 2;
+  object-fit: contain;
+  transition:
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 350ms ease,
+    filter 350ms ease;
+}
+
+.system-project:hover .project-image {
+  opacity: 1;
+}
+
+/* -----------------------------------------
+   01 — LOGISTICS
+   Live network / movement / tracking
+   ----------------------------------------- */
+
+.system-project.project-1 .system-project-visual {
+  background:
+    radial-gradient(
+      circle at 78% 22%,
+      rgba(77, 163, 255, 0.20),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 15% 80%,
+      rgba(77, 163, 255, 0.08),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #06100a 0%,
+      #030603 52%,
+      #09140e 100%
+    );
+}
+
+.system-project.project-1 .project-grid-bg {
+  opacity: 0.42;
+  background-size: 42px 42px;
+}
+
+.system-project.project-1 .project-image {
+  padding: 6%;
+  filter: contrast(1.08) saturate(0.85);
+}
+
+.system-project.project-1:hover .project-image {
+  transform: scale(1.025) translateX(3px);
+  filter: contrast(1.1) saturate(1);
+}
+
+/* -----------------------------------------
+   02 — BUSINESS SYSTEMS
+   Data / intelligence / operations
+   ----------------------------------------- */
+
+.system-project.project-2 .system-project-visual {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      rgba(255,255,255,0.025) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 72% 25%,
+      rgba(77, 163, 255, 0.07),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #0b0c0b 0%,
+      #101210 48%,
+      #050605 100%
+    );
+  background-size: 34px 34px, 34px 34px, auto, auto;
+}
+
+.system-project.project-2 .project-grid-bg {
+  opacity: 0.12;
+  transform: none;
+}
+
+.system-project.project-2 .project-image {
+  padding: 5%;
+  filter: contrast(1.08);
+}
+
+.system-project.project-2:hover .project-image {
+  transform: scale(0.99) translateY(-4px);
+  filter: contrast(1.12);
+}
+
+/* -----------------------------------------
+   03 — ARKIINZTRIBE BRAND
+   Official brand / editorial identity
+   ----------------------------------------- */
+
+.system-project.project-3 .system-project-visual {
+  background:
+    radial-gradient(
+      circle at 72% 22%,
+      rgba(255,255,255,0.10),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 20% 75%,
+      rgba(77,163,255,0.035),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #151615 0%,
+      #080908 52%,
+      #111211 100%
+    );
+}
+
+.system-project.project-3 .project-grid-bg {
+  opacity: 0.08;
+  transform:
+    perspective(800px)
+    rotateX(35deg)
+    scale(1.25);
+}
+
+.system-project.project-3 .project-image {
+  padding: 4%;
+  filter: contrast(1.08) saturate(0.92);
+}
+
+.system-project.project-3:hover .project-image {
+  transform: scale(1.045);
+  filter: contrast(1.1) saturate(1);
+}
+
+/* -----------------------------------------
+   Shared project interaction
+   ----------------------------------------- */
+
+.system-project {
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 350ms ease,
+    opacity 350ms ease;
+}
+
+.system-project:hover {
+  transform: translateY(-4px);
+}
+
+.system-project:focus-visible {
+  outline: 1px solid var(--system-blue);
+  outline-offset: 6px;
+}
+
+.system-project .project-overlay {
+  z-index: 5;
+  background: rgba(3, 4, 3, 0.48);
+  color: var(--system-blue);
+  backdrop-filter: blur(2px);
+}
+
+.system-project:hover .project-overlay {
+  opacity: 1;
+}
+
+.system-project .project-topline {
+  transition:
+    color 250ms ease;
+}
+
+.system-project:hover .project-topline {
+  color: #a1aaa1;
+}
+
+.system-project .project-status {
+  transition:
+    color 250ms ease,
+    text-shadow 250ms ease;
+}
+
+.system-project:hover .project-status {
+  color: var(--system-blue);
+  text-shadow: 0 0 12px rgba(77, 163, 255, 0.40);
+}
+
+/* -----------------------------------------
+   Mobile
+   ----------------------------------------- */
+
+@media (max-width: 900px) {
+  .system-project:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .system-project.project-1 .project-image,
+  .system-project.project-2 .project-image,
+  .system-project.project-3 .project-image {
+    padding: 5%;
+  }
+
+  .system-project.project-3 .project-image {
+    padding: 4%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .system-project,
+  .system-project .project-image,
+  .system-project .project-overlay,
+  .system-project .project-topline,
+  .system-project .project-status {
+    transition: none;
+  }
+
+  .system-project:hover,
+  .system-project:hover .project-image {
+    transform: none;
+  }
+}
+
+
+/* FINAL PROJECT CARD CLICK FIX */
+.system-project {
+  position: relative;
+  display: block;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.system-project-visual,
+.system-project-visual *,
+.project-topline,
+.project-topline *,
+.system-project-info,
+.system-project-info * {
+  pointer-events: none;
+}
+
+.system-project .project-overlay {
+  pointer-events: none;
+}
+
+
+/* =========================================
+   LOGISTICS CASE STUDY — DASHBOARD FIX
+   ========================================= */
+
+.logistics-dashboard {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 520px;
+  border: 1px solid var(--system-border);
+  background: #050806;
+}
+
+.logistics-dashboard-head {
+  position: relative;
+  z-index: 10;
+}
+
+.logistics-dashboard-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(220px, .8fr);
+  min-height: 430px;
+}
+
+.logistics-map {
+  position: relative;
+  min-height: 430px;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(77,163,255,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77,163,255,.045) 1px, transparent 1px);
+  background-size: 35px 35px;
+}
+
+.map-rider {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 8;
+  display: block;
+  width: max-content;
+  margin: 0;
+  padding: 7px 10px;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  line-height: 1;
+  font-family: monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--system-blue);
+  text-shadow: none;
+  opacity: 1;
+  visibility: visible;
+  background: rgba(3,8,6,.92);
+  border: 1px solid rgba(77,163,255,.55);
+  box-shadow: 0 0 20px rgba(77,163,255,.16);
+}
+
+.logistics-status-panel {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 28px 24px;
+  border-left: 1px solid var(--system-border);
+  background: rgba(5,8,6,.96);
+}
+
+.logistics-status-panel small,
+.logistics-status-panel strong,
+.logistics-status-panel .status-online {
+  display: block;
+}
+
+.logistics-status-panel strong {
+  line-height: 1;
+  font-size: clamp(42px, 6vw, 64px);
+}
+
+.status-online {
+  line-height: 1.3;
+  white-space: nowrap;
+  font-family: monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+
+.logistics-mini-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-width: 0;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255,255,255,.08);
+  font-family: monospace;
+  font-size: 8px;
+  line-height: 1.3;
+  letter-spacing: 1px;
+}
+
+.logistics-mini-row span,
+.logistics-mini-row b {
+  display: block;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.logistics-mini-row span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #899189;
+}
+
+.logistics-mini-row b {
+  flex: 0 0 auto;
+  color: var(--system-blue);
+}
+
+@media (max-width: 700px) {
+  .logistics-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .logistics-map {
+    min-height: 300px;
+  }
+
+  .logistics-status-panel {
+    border-left: 0;
+    border-top: 1px solid var(--system-border);
+  }
+}
+
