@@ -222,7 +222,7 @@ export default function AgentPanel() {
           {
             role: "ark",
             content:
-              "PROJECT BRIEF READY. Review your details, then use TRANSMIT PROJECT BRIEF to submit it.",
+              "PROJECT BRIEF READY. Review the captured details below. When everything is correct, confirm and ARK will deliver the brief to the project inbox.",
           },
         ]);
       }
