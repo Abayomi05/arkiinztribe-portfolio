@@ -45,6 +45,8 @@ export default function AgentPanel() {
   const [loading, setLoading] = useState(false);
   const [storage, setStorage] = useState("LOCAL SESSION");
   const [ready, setReady] = useState(false);
+  const [brief, setBrief] = useState<Record<string, unknown>>({});
+  const [transmitting, setTransmitting] = useState(false);
   const openAgentRef = useRef<(() => Promise<void>) | null>(null);
 
   useEffect(() => {
@@ -69,6 +71,8 @@ export default function AgentPanel() {
       const data = (await response.json()) as ConversationResponse;
 
       setConversationId(data.conversation.id);
+      setBrief(data.conversation.brief ?? {});
+      setReady(data.conversation.ready);
       setMessages(
         data.conversation.messages?.length
           ? data.conversation.messages
@@ -85,6 +89,93 @@ export default function AgentPanel() {
       ]);
     }
   }
+
+  async function transmitBrief() {
+    if (transmitting || !conversationId) return;
+
+    if (!ready) {
+      setOpen(true);
+      setMessages((current) => [
+        ...current,
+        {
+          role: "ark",
+          content:
+            "PROJECT BRIEF NOT READY. Complete the brief with ARK before transmitting it.",
+        },
+      ]);
+      return;
+    }
+
+    setOpen(true);
+    setTransmitting(true);
+
+    setMessages((current) => [
+      ...current,
+      {
+        role: "ark",
+        content: "TRANSMITTING PROJECT BRIEF...",
+      },
+    ]);
+
+    try {
+      const response = await fetch("/api/ark/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          conversationId,
+          brief,
+        }),
+      });
+
+      const data = (await response.json()) as {
+        message?: string;
+        error?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || "Unable to transmit the project brief.",
+        );
+      }
+
+      setMessages((current) => [
+        ...current,
+        {
+          role: "ark",
+          content:
+            data.message ||
+            "TRANSMISSION COMPLETE. Your project brief has been received.",
+        },
+      ]);
+    } catch (error) {
+      setMessages((current) => [
+        ...current,
+        {
+          role: "ark",
+          content:
+            error instanceof Error
+              ? error.message
+              : "PROJECT BRIEF TRANSMISSION FAILED.",
+        },
+      ]);
+    } finally {
+      setTransmitting(false);
+    }
+  }
+
+  useEffect(() => {
+    function handleTransmit() {
+      void transmitBrief();
+    }
+
+    window.addEventListener("ark:transmit-brief", handleTransmit);
+
+    return () => {
+      window.removeEventListener("ark:transmit-brief", handleTransmit);
+    };
+  }, [conversationId, ready, brief, transmitting]);
 
   async function sendMessage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -122,36 +213,16 @@ export default function AgentPanel() {
       }
 
       setMessages((current) => [...current, data.message]);
+      setBrief(data.brief);
       setReady(data.ready);
 
       if (data.ready) {
-        const leadResponse = await fetch("/api/ark/leads", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            conversationId,
-            brief: data.brief,
-          }),
-        });
-
-        const leadData = (await leadResponse.json()) as {
-          message?: string;
-          error?: string;
-        };
-
-        if (!leadResponse.ok) {
-          throw new Error(
-            leadData.error || "Unable to transmit the project brief.",
-          );
-        }
-
         setMessages((current) => [
           ...current,
           {
             role: "ark",
-            content: "TRANSMISSION COMPLETE. Your project brief has been securely received.",
+            content:
+              "PROJECT BRIEF READY. Review your details, then use TRANSMIT PROJECT BRIEF to submit it.",
           },
         ]);
       }
@@ -247,7 +318,13 @@ export default function AgentPanel() {
             <span>
               {storage === "NEON" ? "DATABASE CONNECTED" : "AGENT STATUS"}
             </span>
-            <span>{ready ? "BRIEF READY" : storage}</span>
+            <span>
+              {transmitting
+                ? "TRANSMITTING..."
+                : ready
+                  ? "BRIEF READY"
+                  : storage}
+            </span>
           </div>
         </div>
       )}

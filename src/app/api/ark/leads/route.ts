@@ -109,7 +109,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           {
             error: "Project brief saved, but email delivery failed.",
-            resendError: error,
           },
           { status: 502 },
         );
