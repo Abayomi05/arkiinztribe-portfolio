@@ -4,6 +4,7 @@ import MobileNav from "@/components/MobileNav";
 import MotionReveal from "@/components/MotionReveal";
 import SystemBoot from "@/components/SystemBoot";
 import AgentPanel from "@/components/AgentPanel";
+import ProjectBriefMailButton from "@/components/ProjectBriefMailButton";
 
 const services = [
   {
@@ -381,12 +382,7 @@ export default function Home() {
             and where you want the system to go.
           </p>
 
-          <a
-            href="mailto:johnsonarkiinz@gmail.com?subject=ARKIINZTRIBE%20Project%20Brief&body=Hello%20ARKIINZTRIBE%2C%0A%0AI%27d%20like%20to%20discuss%20a%20project.%0A%0AProject%3A%0AProblem%3A%0AGoals%3A%0ATimeline%3A%0ABudget%3A%0A%0AThank%20you."
-            className="system-button primary"
-          >
-            TRANSMIT PROJECT BRIEF ↗
-          </a>
+          <ProjectBriefMailButton />
         </section>
       </MotionReveal>
 
