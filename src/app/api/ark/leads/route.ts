@@ -101,15 +101,15 @@ export async function POST(request: NextRequest) {
       });
 
       if (error) {
-        console.error("Project brief email failed:", error);
+        console.error(
+          "PROJECT_BRIEF_RESEND_ERROR",
+          JSON.stringify(error, null, 2),
+        );
 
         return NextResponse.json(
           {
             error: "Project brief saved, but email delivery failed.",
-            resendError:
-              error instanceof Error
-                ? error.message
-                : JSON.stringify(error),
+            resendError: error,
           },
           { status: 502 },
         );
