@@ -1,29 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
 import {
   addMessage,
   createArkLead,
   getConversation,
   updateConversation,
 } from "@/lib/ark-db";
+import { deliverProjectBrief } from "@/lib/brief-mailer";
+import { respondToMessage } from "@/lib/ark-engine";
+import { clientKey, rateLimit } from "@/lib/rate-limit";
 import {
-  respondToMessage,
-  type ProjectBrief,
-} from "@/lib/ark-engine";
+  isDeliverableBrief,
+  sanitizeBrief,
+} from "@/lib/validation";
 
 const MAX_MESSAGE = 2000;
 const COOKIE = "ark_session";
-
-function getResend() {
-  const key = process.env.RESEND_API_KEY;
-  return key ? new Resend(key) : null;
-}
-
-function validEmail(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
+const RATE_LIMIT = 40;
+const RATE_WINDOW_MS = 5 * 60 * 1000;
 
 export async function POST(request: NextRequest) {
+  const limit = rateLimit(
+    clientKey(request, "ark-messages"),
+    RATE_LIMIT,
+    RATE_WINDOW_MS,
+  );
+
+  if (!limit.ok) {
+    return NextResponse.json(
+      {
+        error: `ARK is receiving too many messages. Try again in ${limit.retryAfterSeconds} seconds.`,
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(limit.retryAfterSeconds) },
+      },
+    );
+  }
+
   try {
     const body = await request.json();
 
@@ -69,7 +82,7 @@ export async function POST(request: NextRequest) {
 
     const result = respondToMessage(
       content,
-      (conversation.brief ?? {}) as ProjectBrief,
+      sanitizeBrief(conversation.brief).brief,
     );
 
     await addMessage(
@@ -88,125 +101,49 @@ export async function POST(request: NextRequest) {
     let finalMessage = result.message;
 
     if (result.ready) {
-      const email = result.brief.email?.trim() || "";
-      const project = result.brief.project?.trim() || "";
+      const { brief, invalid } = sanitizeBrief(result.brief);
 
-      if (!validEmail(email) || !project) {
+      if (invalid.length > 0 || !isDeliverableBrief(brief)) {
         return NextResponse.json(
-          {
-            error:
-              "A valid project description and email are required.",
-          },
+          { error: "A valid project description and email are required." },
           { status: 400 },
         );
       }
 
-      const lead = await createArkLead(
-        conversationId,
-        session,
-        {
-          ...result.brief,
-          email,
-          project,
-        },
-      );
+      const lead = await createArkLead(conversationId, session, brief);
 
       if (!lead) {
         return NextResponse.json(
-          {
-            error:
-              "The project brief could not be saved.",
-          },
+          { error: "The project brief could not be saved." },
           { status: 500 },
         );
       }
 
       /*
-       * Only send the inbox email when this conversation
-       * creates a new lead. This prevents duplicate emails
-       * if the request is retried.
+       * Only send the inbox email when this conversation creates a new lead.
+       * This prevents duplicate emails if the request is retried.
        */
       if (lead.created) {
-        const resend = getResend();
+        const delivery = await deliverProjectBrief(
+          brief,
+          "the ARKIINZTRIBE ARK agent",
+        );
 
-        if (
-          resend &&
-          process.env.PROJECT_BRIEF_TO_EMAIL
-        ) {
-          const { error } =
-            await resend.emails.send({
-              from:
-                process.env.PROJECT_BRIEF_FROM_EMAIL ||
-                "ARKIINZTRIBE <onboarding@resend.dev>",
-              to: [
-                process.env.PROJECT_BRIEF_TO_EMAIL,
-              ],
-              replyTo: email,
-              subject:
-                `NEW ARKIINZTRIBE PROJECT BRIEF — ${project}`,
-              html: `
-                <h2>NEW ARKIINZTRIBE PROJECT BRIEF</h2>
-
-                <p>
-                  <strong>Project:</strong>
-                  ${project}
-                </p>
-
-                <p>
-                  <strong>Problem:</strong>
-                  ${result.brief.problem?.trim() || "Not provided"}
-                </p>
-
-                <p>
-                  <strong>Goals:</strong>
-                  ${result.brief.goals?.trim() || "Not provided"}
-                </p>
-
-                <p>
-                  <strong>Timeline:</strong>
-                  ${result.brief.timeline?.trim() || "Not provided"}
-                </p>
-
-                <p>
-                  <strong>Budget:</strong>
-                  ${result.brief.budget?.trim() || "Not provided"}
-                </p>
-
-                <p>
-                  <strong>Client email:</strong>
-                  ${email}
-                </p>
-
-                <hr />
-
-                <p>
-                  Submitted automatically through
-                  the ARKIINZTRIBE ARK project system.
-                </p>
-              `,
-            });
-
-          if (error) {
-            console.error(
-              "PROJECT_BRIEF_RESEND_ERROR",
-              JSON.stringify(error, null, 2),
-            );
-
-            return NextResponse.json(
-              {
-                error:
-                  "Project brief was saved, but inbox delivery failed.",
-              },
-              { status: 502 },
-            );
-          }
+        if (delivery.error) {
+          return NextResponse.json(
+            {
+              error:
+                "Project brief was saved, but inbox delivery failed.",
+            },
+            { status: 502 },
+          );
         }
       }
 
       finalMessage = {
         role: "ark",
         content:
-          "PROJECT BRIEF RECEIVED. Your project details have been captured and sent to the ARKIINZTRIBE project inbox. We’ll be in touch.",
+          "PROJECT BRIEF RECEIVED. Your project details have been captured and sent to the ARKIINZTRIBE project inbox. We'll be in touch.",
       };
     }
 

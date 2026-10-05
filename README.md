@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ARKIINZTRIBE Portfolio
 
-## Getting Started
+Marketing site and project-brief intake for ARKIINZTRIBE, built with
+Next.js (App Router), React 19 and TypeScript.
 
-First, run the development server:
+## Features
+
+- Single-page marketing site with animated section reveals
+- Case study pages at `/work/[slug]`
+- **ARK agent** - a rule-based chat assistant that walks a visitor
+  through a structured project brief
+- **Direct project brief form** with email delivery via Resend
+- Optional Neon (Postgres) persistence for conversations and leads
+- SEO metadata, `sitemap.xml` and `robots.txt`
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill in the values
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See `.env.example` for the full list. The app degrades gracefully:
 
-## Learn More
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Recommended | Canonical URL for metadata, sitemap and robots |
+| `RESEND_API_KEY` | For email | Resend API key |
+| `PROJECT_BRIEF_TO_EMAIL` | For email | Inbox that receives briefs |
+| `PROJECT_BRIEF_FROM_EMAIL` | No | Verified sender, defaults to `onboarding@resend.dev` |
+| `DATABASE_URL` | No | Neon Postgres connection string. Without it ARK runs against an **in-memory store** (see below) |
+| `ALLOWED_DEV_ORIGINS` | No | Comma-separated origins for `next dev` on a LAN |
 
-To learn more about Next.js, take a look at the following resources:
+Brief submission returns a clear error if email delivery is not
+configured, rather than silently failing.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Architecture
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+  app/
+    page.tsx                    # home page
+    work/[slug]/page.tsx        # case studies (generateStaticParams)
+    api/project-brief/          # direct brief form endpoint
+    api/ark/conversations/      # create / resume an ARK session
+    api/ark/messages/           # ARK turn, persists messages
+    api/ark/briefs/             # save a brief explicitly
+    api/ark/leads/              # submit a completed brief
+  components/                   # AgentPanel, modals, nav, reveals
+  lib/
+    ark-engine.ts               # ARK conversation state machine
+    ark-db.ts                   # Neon persistence
+    validation.ts               # shared brief sanitising + limits
+    brief-email.ts              # escaped email templates
+    brief-mailer.ts             # Resend delivery
+    rate-limit.ts               # in-memory abuse guard
+```
 
-## Deploy on Vercel
+Brief input flows through `sanitizeBrief` in every channel, so the
+length limits and email validation cannot drift between the ARK
+conversation and the direct form. HTML email bodies are escaped in
+`brief-email.ts`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### ARK storage
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`ark-db.ts` picks a backend once at startup:
+
+- **`DATABASE_URL` set** — Neon Postgres. Tables are created on demand.
+- **`DATABASE_URL` unset** — an in-memory store, so the whole ARK flow
+  works on a fresh clone with no setup. `/api/ark/conversations` reports
+  `LOCAL SESSION` so this is visible rather than silent.
+
+The in-memory store is per-process: on serverless each instance holds its
+own copy, so it is for local development, not production. Conversations
+idle for 24 hours are evicted. See
+`docs/spec-ark-local-fallback.md`.
+
+## Rate limiting
+
+`src/lib/rate-limit.ts` is a per-instance in-memory limiter, enough to
+blunt casual spam. For a global limit, back `rateLimit` with a shared
+store (Upstash Redis or Vercel KV).
+
+## Scripts
+
+```bash
+npm run dev     # dev server
+npm run build   # production build
+npm run start   # serve the production build
+npm run lint     # eslint
+npm run typecheck # tsc --noEmit
+npm test          # ARK store tests (tsx)
+```

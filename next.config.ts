@@ -1,14 +1,20 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: [
-    "localhost",
-    "127.0.0.1",
-    "172.20.224.58",
-    "10.49.149.215",
-    "100.93.138.245",
-    "10.51.110.210",
-  ],
+  poweredByHeader: false,
+  reactStrictMode: true,
+  /*
+   * Local network origins for `next dev` while testing on a phone.
+   * These were hardcoded to specific machines, which broke for everyone
+   * else. Set ALLOWED_DEV_ORIGINS (comma separated) instead.
+   */
+  allowedDevOrigins: (
+    process.env.ALLOWED_DEV_ORIGINS ??
+    "localhost,127.0.0.1"
+  )
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean),
 };
 
 export default nextConfig;

@@ -165,9 +165,18 @@ export default function AgentPanel() {
     }
   }
 
+  const transmitBriefRef = useRef(transmitBrief);
+
+  transmitBriefRef.current = transmitBrief;
+
+  /*
+   * The listener reads the latest transmitBrief through a ref instead of
+   * listing it as an effect dependency. Without this the listener was
+   * removed and re-added on every conversation/brief state change.
+   */
   useEffect(() => {
     function handleTransmit() {
-      void transmitBrief();
+      void transmitBriefRef.current();
     }
 
     window.addEventListener("ark:transmit-brief", handleTransmit);
@@ -175,7 +184,7 @@ export default function AgentPanel() {
     return () => {
       window.removeEventListener("ark:transmit-brief", handleTransmit);
     };
-  }, [conversationId, ready, brief, transmitting]);
+  }, []);
 
   async function sendMessage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

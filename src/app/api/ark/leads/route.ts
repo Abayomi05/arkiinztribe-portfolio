@@ -1,16 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
 import { createArkLead, getConversation } from "@/lib/ark-db";
-import type { ProjectBrief } from "@/lib/ark-engine";
+import { deliverProjectBrief } from "@/lib/brief-mailer";
+import {
+  clearBriefEmailed,
+  markBriefEmailed,
+  wasBriefEmailed,
+} from "@/lib/email-dedupe";
+import { clientKey, rateLimit } from "@/lib/rate-limit";
+import {
+  isDeliverableBrief,
+  sanitizeBrief,
+} from "@/lib/validation";
 
 const COOKIE = "ark_session";
-function getResend() { const key = process.env.RESEND_API_KEY; return key ? new Resend(key) : null; }
-
-function validEmail(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
+const RATE_LIMIT = 5;
+const RATE_WINDOW_MS = 10 * 60 * 1000;
 
 export async function POST(request: NextRequest) {
+  const limit = rateLimit(
+    clientKey(request, "ark-leads"),
+    RATE_LIMIT,
+    RATE_WINDOW_MS,
+  );
+
+  if (!limit.ok) {
+    return NextResponse.json(
+      {
+        error: `Too many requests. Try again in ${limit.retryAfterSeconds} seconds.`,
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(limit.retryAfterSeconds) },
+      },
+    );
+  }
+
   try {
     const body = await request.json();
 
@@ -19,7 +43,7 @@ export async function POST(request: NextRequest) {
         ? body.conversationId
         : "";
 
-    const brief = (body.brief ?? {}) as ProjectBrief;
+    const { brief, invalid } = sanitizeBrief(body.brief);
     const session = request.cookies.get(COOKIE)?.value;
 
     if (!conversationId || !session) {
@@ -29,12 +53,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (
-      typeof brief.project !== "string" ||
-      !brief.project.trim() ||
-      typeof brief.email !== "string" ||
-      !validEmail(brief.email.trim())
-    ) {
+    if (invalid.length > 0) {
+      return NextResponse.json(
+        { error: `Invalid field: ${invalid.join(", ")}.` },
+        { status: 400 },
+      );
+    }
+
+    if (!isDeliverableBrief(brief)) {
       return NextResponse.json(
         { error: "A valid project description and email are required." },
         { status: 400 },
@@ -60,15 +86,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const lead = await createArkLead(
-      conversationId,
-      session,
-      {
-        ...brief,
-        email: brief.email.trim(),
-        project: brief.project.trim(),
-      },
-    );
+    const lead = await createArkLead(conversationId, session, brief);
 
     if (!lead) {
       return NextResponse.json(
@@ -77,41 +95,53 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const resend = getResend();
+    /*
+     * Email the inbox on the first submit, and on any resubmit where a
+     * previous delivery did NOT succeed.
+     *
+     * Gating purely on `lead.created` (an earlier attempt here) silently
+     * dropped every brief after the first: createArkLead is idempotent, so a
+     * resubmit returns created=false and no mail was ever sent - yet the
+     * client still received 200. It also meant a first send that failed could
+     * never be retried, losing the lead permanently.
+     */
+    const alreadyEmailed = wasBriefEmailed(conversationId);
 
-    if (resend && process.env.PROJECT_BRIEF_TO_EMAIL) {
-      const briefEmail = brief.email?.trim() || "Not provided";
+    if (lead.created || !alreadyEmailed) {
+      const result = await deliverProjectBrief(
+        brief,
+        "the ARKIINZTRIBE ARK agent",
+      );
 
-      const { error } = await resend.emails.send({
-        from: process.env.PROJECT_BRIEF_FROM_EMAIL || "ARKIINZTRIBE <onboarding@resend.dev>",
-        to: [process.env.PROJECT_BRIEF_TO_EMAIL],
-        replyTo: briefEmail,
-        subject: `NEW ARKIINZTRIBE PROJECT BRIEF — ${brief.project.trim()}`,
-        html: `
-          <h2>NEW PROJECT BRIEF</h2>
-          <p><strong>Project:</strong> ${brief.project?.trim() || "Not provided"}</p>
-          <p><strong>Problem:</strong> ${brief.problem?.trim() || "Not provided"}</p>
-          <p><strong>Goals:</strong> ${brief.goals?.trim() || "Not provided"}</p>
-          <p><strong>Timeline:</strong> ${brief.timeline?.trim() || "Not provided"}</p>
-          <p><strong>Budget:</strong> ${brief.budget?.trim() || "Not provided"}</p>
-          <p><strong>Client email:</strong> ${briefEmail}</p>
-          <hr />
-          <p>Submitted through the ARKIINZTRIBE ARK project system.</p>
-        `,
-      });
-
-      if (error) {
-        console.error(
-          "PROJECT_BRIEF_RESEND_ERROR",
-          JSON.stringify(error, null, 2),
-        );
+      if (result.error) {
+        // Allow the visitor to retry the delivery.
+        clearBriefEmailed(conversationId);
 
         return NextResponse.json(
-          {
-            error: "Project brief saved, but email delivery failed.",
-          },
+          { error: "Project brief saved, but email delivery failed." },
           { status: 502 },
         );
+      }
+
+      if (result.unconfigured) {
+        /*
+         * The lead is stored, but nothing was emailed. Returning 200 here
+         * would tell the visitor their brief reached ARKIINZTRIBE when no
+         * mail was ever sent, so surface it instead of silently succeeding.
+         */
+        return NextResponse.json(
+          {
+            lead,
+            delivered: false,
+            message:
+              "PROJECT BRIEF SAVED, BUT NOT EMAILED - the server is missing its email configuration.",
+          },
+          { status: 503 },
+        );
+      }
+
+      if (result.delivered) {
+        markBriefEmailed(conversationId);
       }
     }
 
@@ -119,7 +149,9 @@ export async function POST(request: NextRequest) {
       lead,
       message: "PROJECT BRIEF RECEIVED.",
     });
-  } catch {
+  } catch (error) {
+    console.error("ARK_LEAD_ERROR", error);
+
     return NextResponse.json(
       { error: "Unable to submit project brief." },
       { status: 500 },

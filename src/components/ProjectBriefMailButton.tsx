@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 type FormState = {
   name: string;
@@ -27,6 +27,8 @@ export default function ProjectBriefMailButton() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [sending, setSending] = useState(false);
   const [status, setStatus] = useState("");
+  const dialogRef = useRef<HTMLElement>(null);
+  const firstFieldRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     function handleOpen() {
@@ -40,6 +42,53 @@ export default function ProjectBriefMailButton() {
       window.removeEventListener("project-brief:open", handleOpen);
     };
   }, []);
+
+  /*
+   * Move focus into the dialog when it opens, and support Escape to close.
+   * Without this the modal is keyboard-trapping: tab order stays behind the
+   * overlay and Escape does nothing.
+   */
+  useEffect(() => {
+    if (!open) return;
+
+    firstFieldRef.current?.focus();
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape" && !sending) {
+        setOpen(false);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open, sending]);
+
+  /*
+   * Keep Tab inside the dialog while it is open.
+   */
+  function handleDialogKeyDown(event: React.KeyboardEvent<HTMLElement>) {
+    if (event.key !== "Tab" || !dialogRef.current) return;
+
+    const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    );
+
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
 
   function updateField(field: keyof FormState, value: string) {
     setForm((current) => ({
@@ -122,6 +171,8 @@ export default function ProjectBriefMailButton() {
           }}
         >
           <section
+            ref={dialogRef}
+            onKeyDown={handleDialogKeyDown}
             className="brief-modal"
             role="dialog"
             aria-modal="true"
@@ -157,12 +208,14 @@ export default function ProjectBriefMailButton() {
               <label>
                 NAME
                 <input
+                  ref={firstFieldRef}
                   value={form.name}
                   onChange={(event) =>
                     updateField("name", event.target.value)
                   }
                   maxLength={2000}
                   placeholder="Your name"
+                  autoComplete="name"
                 />
               </label>
 
@@ -171,11 +224,13 @@ export default function ProjectBriefMailButton() {
                 <input
                   type="email"
                   required
+                  autoComplete="email"
+                  inputMode="email"
                   value={form.email}
                   onChange={(event) =>
                     updateField("email", event.target.value)
                   }
-                  maxLength={2000}
+                  maxLength={254}
                   placeholder="you@example.com"
                 />
               </label>

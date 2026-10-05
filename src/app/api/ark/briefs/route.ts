@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getConversation, updateConversation } from "@/lib/ark-db";
-import type { ProjectBrief } from "@/lib/ark-engine";
+import { isDeliverableBrief, sanitizeBrief } from "@/lib/validation";
 
 const COOKIE = "ark_session";
 
@@ -35,20 +35,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const brief = (body.brief ?? {}) as ProjectBrief;
+    /*
+     * This endpoint previously flipped ready=true unconditionally, so an
+     * empty brief could be marked complete. A brief is only "ready" once it
+     * carries a valid email and a project description.
+     */
+    const { brief, invalid } = sanitizeBrief(body.brief);
 
-    const fields = ["project", "problem", "goals", "timeline", "budget", "email"] as const;
+    if (invalid.length > 0) {
+      return NextResponse.json(
+        { error: `Invalid field: ${invalid.join(", ")}.` },
+        { status: 400 },
+      );
+    }
 
-    for (const field of fields) {
-      if (
-        brief[field] !== undefined &&
-        (typeof brief[field] !== "string" || brief[field].length > 1000)
-      ) {
-        return NextResponse.json(
-          { error: `Invalid ${field}.` },
-          { status: 400 },
-        );
-      }
+    const ready = isDeliverableBrief(brief);
+
+    if (!ready) {
+      return NextResponse.json(
+        {
+          error: "A valid project description and email are required.",
+        },
+        { status: 400 },
+      );
     }
 
     const updated = await updateConversation(
@@ -64,7 +73,9 @@ export async function POST(request: NextRequest) {
       conversation: updated,
       message: "PROJECT BRIEF READY.",
     });
-  } catch {
+  } catch (error) {
+    console.error("ARK_BRIEF_ERROR", error);
+
     return NextResponse.json(
       { error: "Unable to save project brief." },
       { status: 500 },
