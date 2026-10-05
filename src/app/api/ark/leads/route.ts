@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createArkLead, getConversation } from "@/lib/ark-db";
 import { deliverProjectBrief } from "@/lib/brief-mailer";
+import {
+  clearBriefEmailed,
+  markBriefEmailed,
+  wasBriefEmailed,
+} from "@/lib/email-dedupe";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
 import {
   isDeliverableBrief,
@@ -91,21 +96,35 @@ export async function POST(request: NextRequest) {
     }
 
     /*
-     * Only email the inbox when this conversation creates a NEW lead.
-     * Previously the email fired on every submit, so a client retry (or a
-     * double-click on the transmit button) emailed the same brief twice.
+     * Email the inbox on the first submit, and on any resubmit where a
+     * previous delivery did NOT succeed.
+     *
+     * Gating purely on `lead.created` (an earlier attempt here) silently
+     * dropped every brief after the first: createArkLead is idempotent, so a
+     * resubmit returns created=false and no mail was ever sent - yet the
+     * client still received 200. It also meant a first send that failed could
+     * never be retried, losing the lead permanently.
      */
-    if (lead.created) {
+    const alreadyEmailed = wasBriefEmailed(conversationId);
+
+    if (lead.created || !alreadyEmailed) {
       const result = await deliverProjectBrief(
         brief,
         "the ARKIINZTRIBE ARK agent",
       );
 
       if (result.error) {
+        // Allow the visitor to retry the delivery.
+        clearBriefEmailed(conversationId);
+
         return NextResponse.json(
           { error: "Project brief saved, but email delivery failed." },
           { status: 502 },
         );
+      }
+
+      if (result.delivered) {
+        markBriefEmailed(conversationId);
       }
     }
 

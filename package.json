@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "tsx tests/ark-memory.test.ts"
+    "test": "tsx tests/ark-memory.test.ts && tsx tests/email-dedupe.test.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
