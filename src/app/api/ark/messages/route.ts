@@ -3,6 +3,7 @@ import {
   addMessage,
   createArkLead,
   getConversation,
+  markLeadEmailed,
   updateConversation,
 } from "@/lib/ark-db";
 import { deliverProjectBrief } from "@/lib/brief-mailer";
@@ -120,10 +121,19 @@ export async function POST(request: NextRequest) {
       }
 
       /*
-       * Only send the inbox email when this conversation creates a new lead.
-       * This prevents duplicate emails if the request is retried.
+       * Send when this lead has never had an email accepted.
+       *
+       * `lead.created` alone could not express this: the lead is created
+       * here, so a delivery that failed on the first attempt left
+       * created=false forever and the brief was never resent - while the
+       * visitor was told it reached the inbox. Conversely, checking only
+       * "not emailed" without care would double-send on every retransmit.
+       *
+       * `emailed_at` is persisted by the store rather than kept in memory,
+       * because both this route and /api/ark/leads run on serverless
+       * instances that do not share state.
        */
-      if (lead.created) {
+      if (!lead.emailed_at) {
         const delivery = await deliverProjectBrief(
           brief,
           "the ARKIINZTRIBE ARK agent",
@@ -137,6 +147,20 @@ export async function POST(request: NextRequest) {
             },
             { status: 502 },
           );
+        }
+
+        if (delivery.unconfigured) {
+          return NextResponse.json(
+            {
+              error:
+                "Project brief saved, but not emailed - the server is missing its email configuration.",
+            },
+            { status: 503 },
+          );
+        }
+
+        if (delivery.delivered) {
+          await markLeadEmailed(conversationId);
         }
       }
 

@@ -52,6 +52,10 @@ function neonStore(db: Pool): ArkStore {
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
 
+    /* Migration: CREATE TABLE IF NOT EXISTS never alters an existing table. */
+    ALTER TABLE ark_leads
+      ADD COLUMN IF NOT EXISTS emailed_at TIMESTAMPTZ;
+
     CREATE INDEX IF NOT EXISTS ark_conversations_session_idx
       ON ark_conversations(session_id);
 
@@ -150,7 +154,8 @@ function neonStore(db: Pool): ArkStore {
       brief: ProjectBrief,
     ) {
       const existing = await db.query(
-        `SELECT id, conversation_id, email, project, status, created_at
+        `SELECT id, conversation_id, email, project, status, created_at,
+                emailed_at
          FROM ark_leads
          WHERE conversation_id = $1
          LIMIT 1`,
@@ -158,7 +163,11 @@ function neonStore(db: Pool): ArkStore {
       );
 
       if (existing.rows[0]) {
-        return { ...existing.rows[0], created: false as const };
+        return {
+          ...existing.rows[0],
+          emailed_at: existing.rows[0].emailed_at ?? null,
+          created: false as const,
+        };
       }
 
       const result = await db.query(
@@ -167,7 +176,8 @@ function neonStore(db: Pool): ArkStore {
           problem, goals, timeline, budget
         )
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-        RETURNING id, conversation_id, email, project, status, created_at`,
+        RETURNING id, conversation_id, email, project, status, created_at,
+                  emailed_at`,
         [
           conversationId,
           sessionId,
@@ -182,8 +192,22 @@ function neonStore(db: Pool): ArkStore {
       );
 
       return result.rows[0]
-        ? { ...result.rows[0], created: true as const }
+        ? {
+            ...result.rows[0],
+            emailed_at: result.rows[0].emailed_at ?? null,
+            created: true as const,
+          }
         : null;
+    },
+
+    async markLeadEmailed(conversationId: string) {
+      await db.query(
+        `UPDATE ark_leads
+         SET emailed_at = NOW()
+         WHERE conversation_id = $1
+           AND emailed_at IS NULL`,
+        [conversationId],
+      );
     },
   };
 }
@@ -217,3 +241,6 @@ export const createArkLead = (
   sessionId: string,
   brief: ProjectBrief,
 ) => store.createArkLead(conversationId, sessionId, brief);
+
+export const markLeadEmailed = (conversationId: string) =>
+  store.markLeadEmailed(conversationId);

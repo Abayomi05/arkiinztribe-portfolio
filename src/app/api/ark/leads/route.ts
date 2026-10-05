@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createArkLead, getConversation } from "@/lib/ark-db";
-import { deliverProjectBrief } from "@/lib/brief-mailer";
 import {
-  clearBriefEmailed,
-  markBriefEmailed,
-  wasBriefEmailed,
-} from "@/lib/email-dedupe";
+  createArkLead,
+  getConversation,
+  markLeadEmailed,
+} from "@/lib/ark-db";
+import { deliverProjectBrief } from "@/lib/brief-mailer";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
 import {
   isDeliverableBrief,
@@ -96,27 +95,21 @@ export async function POST(request: NextRequest) {
     }
 
     /*
-     * Email the inbox on the first submit, and on any resubmit where a
-     * previous delivery did NOT succeed.
+     * Email unless this lead already has an accepted delivery on record.
      *
-     * Gating purely on `lead.created` (an earlier attempt here) silently
-     * dropped every brief after the first: createArkLead is idempotent, so a
-     * resubmit returns created=false and no mail was ever sent - yet the
-     * client still received 200. It also meant a first send that failed could
-     * never be retried, losing the lead permanently.
+     * `emailed_at` is persisted (not in-memory) because /api/ark/messages
+     * normally emails first, and this route may run on a different
+     * serverless instance. Gating on `lead.created` alone was wrong twice
+     * over: it re-sent nothing when messages had already delivered, but
+     * also could never retry a delivery that had failed.
      */
-    const alreadyEmailed = wasBriefEmailed(conversationId);
-
-    if (lead.created || !alreadyEmailed) {
+    if (!lead.emailed_at) {
       const result = await deliverProjectBrief(
         brief,
         "the ARKIINZTRIBE ARK agent",
       );
 
       if (result.error) {
-        // Allow the visitor to retry the delivery.
-        clearBriefEmailed(conversationId);
-
         return NextResponse.json(
           { error: "Project brief saved, but email delivery failed." },
           { status: 502 },
@@ -141,7 +134,7 @@ export async function POST(request: NextRequest) {
       }
 
       if (result.delivered) {
-        markBriefEmailed(conversationId);
+        await markLeadEmailed(conversationId);
       }
     }
 

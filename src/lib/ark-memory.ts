@@ -205,8 +205,9 @@ export const memoryStore: ArkStore = {
     if (!ownedConversation(conversationId, sessionId)) return null;
 
     /*
-     * Idempotent per conversation. Returning created=false on a repeat
-     * call is what stops the same brief being emailed twice.
+     * Idempotent per conversation: returning created=false on a repeat call
+     * reports reality. It is NOT what suppresses the email - that is
+     * emailed_at, so a failed delivery can still be retried.
      */
     const existing = leads.get(conversationId);
 
@@ -219,12 +220,21 @@ export const memoryStore: ArkStore = {
       project: brief.project ?? "",
       status: "new",
       created_at: new Date().toISOString(),
+      emailed_at: null,
       created: true,
     };
 
     leads.set(conversationId, lead);
 
     return lead;
+  },
+
+  async markLeadEmailed(conversationId: string) {
+    const lead = leads.get(conversationId);
+
+    if (!lead || lead.emailed_at) return;
+
+    leads.set(conversationId, { ...lead, emailed_at: new Date().toISOString() });
   },
 };
 

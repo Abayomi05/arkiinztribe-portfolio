@@ -32,6 +32,8 @@ export type ArkLeadRow = {
   project: string;
   status: string;
   created_at: string;
+  /** Set once the inbox email for this lead has been accepted by the provider. */
+  emailed_at: string | null;
   created: boolean;
 };
 
@@ -67,4 +69,13 @@ export interface ArkStore {
     sessionId: string,
     brief: ProjectBrief,
   ): Promise<ArkLeadRow | null>;
+
+  /**
+   * Record that the inbox email for a lead was accepted.
+   *
+   * This lives in the store rather than in memory because both the
+   * messages and leads routes need to see it, and on serverless each
+   * function instance has its own memory.
+   */
+  markLeadEmailed(conversationId: string): Promise<void>;
 }
