@@ -33,7 +33,7 @@ See `.env.example` for the full list. The app degrades gracefully:
 | `RESEND_API_KEY` | For email | Resend API key |
 | `PROJECT_BRIEF_TO_EMAIL` | For email | Inbox that receives briefs |
 | `PROJECT_BRIEF_FROM_EMAIL` | No | Verified sender, defaults to `onboarding@resend.dev` |
-| `DATABASE_URL` | No | Neon Postgres connection string. Without it ARK runs as a local session and no leads are persisted |
+| `DATABASE_URL` | No | Neon Postgres connection string. Without it ARK runs against an **in-memory store** (see below) |
 | `ALLOWED_DEV_ORIGINS` | No | Comma-separated origins for `next dev` on a LAN |
 
 Brief submission returns a clear error if email delivery is not
@@ -66,6 +66,20 @@ length limits and email validation cannot drift between the ARK
 conversation and the direct form. HTML email bodies are escaped in
 `brief-email.ts`.
 
+### ARK storage
+
+`ark-db.ts` picks a backend once at startup:
+
+- **`DATABASE_URL` set** — Neon Postgres. Tables are created on demand.
+- **`DATABASE_URL` unset** — an in-memory store, so the whole ARK flow
+  works on a fresh clone with no setup. `/api/ark/conversations` reports
+  `LOCAL SESSION` so this is visible rather than silent.
+
+The in-memory store is per-process: on serverless each instance holds its
+own copy, so it is for local development, not production. Conversations
+idle for 24 hours are evicted. See
+`docs/spec-ark-local-fallback.md`.
+
 ## Rate limiting
 
 `src/lib/rate-limit.ts` is a per-instance in-memory limiter, enough to
@@ -78,5 +92,7 @@ store (Upstash Redis or Vercel KV).
 npm run dev     # dev server
 npm run build   # production build
 npm run start   # serve the production build
-npm run lint    # eslint
+npm run lint     # eslint
+npm run typecheck # tsc --noEmit
+npm test          # ARK store tests (tsx)
 ```

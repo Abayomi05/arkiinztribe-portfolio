@@ -13,33 +13,26 @@ function sessionId(request: NextRequest) {
   return request.cookies.get(COOKIE)?.value ?? crypto.randomUUID();
 }
 
+function attachSession(response: NextResponse, session: string) {
+  response.cookies.set(COOKIE, session, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 60 * 60 * 24 * 30,
+    path: "/",
+  });
+
+  return response;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const session = sessionId(request);
 
-    if (!hasDatabase) {
-      const response = NextResponse.json({
-        conversation: {
-          id: `local-${session}`,
-          sessionId: session,
-          brief: {},
-          ready: false,
-          messages: [createInitialMessage()],
-        },
-        storage: "LOCAL SESSION",
-      });
-
-      response.cookies.set(COOKIE, session, {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 60 * 60 * 24 * 30,
-        path: "/",
-      });
-
-      return response;
-    }
-
+    /*
+     * Both backends create a conversation, so the old hasDatabase
+     * special case is no longer needed.
+     */
     const conversation = await createConversation(session);
 
     if (!conversation) {
@@ -49,26 +42,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const response = NextResponse.json({
-      conversation: {
-        id: conversation.id,
-        sessionId: conversation.session_id,
-        brief: conversation.brief,
-        ready: conversation.ready,
-        messages: [createInitialMessage()],
-      },
-      storage: "NEON",
-    });
-
-    response.cookies.set(COOKIE, session, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24 * 30,
-      path: "/",
-    });
-
-    return response;
+    return attachSession(
+      NextResponse.json({
+        conversation: {
+          id: conversation.id,
+          sessionId: conversation.session_id,
+          brief: conversation.brief,
+          ready: conversation.ready,
+          messages: [createInitialMessage()],
+        },
+        storage: hasDatabase ? "NEON" : "LOCAL SESSION",
+      }),
+      session,
+    );
   } catch {
     return NextResponse.json(
       { error: "Unable to initialize conversation." },
@@ -82,7 +68,7 @@ export async function GET(request: NextRequest) {
     const id = request.nextUrl.searchParams.get("id");
     const session = request.cookies.get(COOKIE)?.value;
 
-    if (!id || !session || !hasDatabase) {
+    if (!id || !session) {
       return NextResponse.json(
         { error: "Conversation unavailable." },
         { status: 404 },
@@ -103,7 +89,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       conversation,
       messages,
-      storage: "NEON",
+      storage: hasDatabase ? "NEON" : "LOCAL SESSION",
     });
   } catch {
     return NextResponse.json(
