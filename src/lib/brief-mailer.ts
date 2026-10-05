@@ -7,7 +7,17 @@ import {
 
 const DEFAULT_SOURCE = "the ARKIINZTRIBE project system";
 
-type DeliverResult = { delivered: boolean; error?: string };
+/**
+ * `unconfigured` means delivery was skipped because env vars are missing, not
+ * because the provider rejected the message. Callers need to tell these apart:
+ * an unconfigured deployment returns HTTP 200 with no email sent, which is
+ * easy to mistake for a successful submission.
+ */
+type DeliverResult = {
+  delivered: boolean;
+  error?: string;
+  unconfigured?: boolean;
+};
 
 /**
  * Deliver a project brief to the ARKIINZTRIBE inbox.
@@ -23,11 +33,16 @@ export async function deliverProjectBrief(
   const destination = process.env.PROJECT_BRIEF_TO_EMAIL;
 
   if (!key || !destination) {
-    console.error(
-      "PROJECT_BRIEF_CONFIG_MISSING: RESEND_API_KEY / PROJECT_BRIEF_TO_EMAIL",
-    );
+    const missing = [
+      !key && "RESEND_API_KEY",
+      !destination && "PROJECT_BRIEF_TO_EMAIL",
+    ]
+      .filter(Boolean)
+      .join(", ");
 
-    return { delivered: false };
+    console.error(`PROJECT_BRIEF_CONFIG_MISSING: ${missing}`);
+
+    return { delivered: false, unconfigured: true };
   }
 
   const resend = new Resend(key);

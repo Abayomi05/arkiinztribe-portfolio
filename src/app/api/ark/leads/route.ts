@@ -123,6 +123,23 @@ export async function POST(request: NextRequest) {
         );
       }
 
+      if (result.unconfigured) {
+        /*
+         * The lead is stored, but nothing was emailed. Returning 200 here
+         * would tell the visitor their brief reached ARKIINZTRIBE when no
+         * mail was ever sent, so surface it instead of silently succeeding.
+         */
+        return NextResponse.json(
+          {
+            lead,
+            delivered: false,
+            message:
+              "PROJECT BRIEF SAVED, BUT NOT EMAILED - the server is missing its email configuration.",
+          },
+          { status: 503 },
+        );
+      }
+
       if (result.delivered) {
         markBriefEmailed(conversationId);
       }
