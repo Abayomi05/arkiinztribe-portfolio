@@ -8,17 +8,56 @@ import {
 import { createInitialMessage } from "@/lib/ark-engine";
 
 const COOKIE = "ark_session";
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 30;
+
+/**
+ * Whether the session cookie may carry the `Secure` attribute.
+ *
+ * This used to be `process.env.NODE_ENV === "production"`, which is wrong:
+ * NODE_ENV describes the build, not how the browser reached the server. Any
+ * production-mode server reached over plain HTTP - `next start` locally, a
+ * LAN address, or an http:// preview - has its cookie silently rejected by
+ * the browser, so every subsequent ARK call fails 401 and the conversation
+ * becomes unusable.
+ *
+ * Decide from the actual request instead. `x-forwarded-proto` is checked
+ * first because a TLS-terminating proxy (Vercel, nginx, Cloudflare) presents
+ * http to the app while the browser is on https.
+ *
+ * `ARK_SECURE_COOKIES` forces the value when the proxy headers are
+ * unavailable; it accepts true/false.
+ */
+function isSecureRequest(request: NextRequest): boolean {
+  const override = process.env.ARK_SECURE_COOKIES?.trim().toLowerCase();
+
+  if (override === "true") return true;
+  if (override === "false") return false;
+
+  const forwardedProto = request.headers
+    .get("x-forwarded-proto")
+    ?.split(",")[0]
+    ?.trim()
+    .toLowerCase();
+
+  if (forwardedProto) return forwardedProto === "https";
+
+  return request.nextUrl.protocol === "https:";
+}
 
 function sessionId(request: NextRequest) {
   return request.cookies.get(COOKIE)?.value ?? crypto.randomUUID();
 }
 
-function attachSession(response: NextResponse, session: string) {
+function attachSession(
+  response: NextResponse,
+  session: string,
+  request: NextRequest,
+) {
   response.cookies.set(COOKIE, session, {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 60 * 60 * 24 * 30,
+    secure: isSecureRequest(request),
+    maxAge: COOKIE_MAX_AGE,
     path: "/",
   });
 
@@ -54,6 +93,7 @@ export async function POST(request: NextRequest) {
         storage: hasDatabase ? "NEON" : "LOCAL SESSION",
       }),
       session,
+      request,
     );
   } catch {
     return NextResponse.json(
