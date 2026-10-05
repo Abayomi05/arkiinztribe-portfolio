@@ -136,6 +136,47 @@ async function run() {
     assert.equal(lead, null);
   });
 
+  await check("a new lead has not been emailed", async () => {
+    const lead = await memoryStore.createArkLead(
+      `local-${session}`,
+      session,
+      { email: "ada@example.com", project: "New brief" },
+    );
+    assert.equal(lead?.emailed_at, null);
+  });
+
+  await check(
+    "markLeadEmailed records the delivery on the lead",
+    async () => {
+      await memoryStore.markLeadEmailed(`local-${session}`);
+      const lead = await memoryStore.createArkLead(
+        `local-${session}`,
+        session,
+        { email: "ada@example.com", project: "New brief" },
+      );
+      assert.equal(lead?.created, false);
+      assert.ok(lead?.emailed_at, "emailed_at should be set");
+    },
+  );
+
+  await check(
+    "the flag survives a repeat read (cross-request check)",
+    async () => {
+      // Models /api/ark/leads checking after /api/ark/messages already
+      // delivered: the flag must be readable, not held in memory.
+      const lead = await memoryStore.createArkLead(
+        `local-${session}`,
+        session,
+        { email: "ada@example.com", project: "New brief" },
+      );
+      assert.equal(Boolean(lead?.emailed_at), true);
+    },
+  );
+
+  await check("markLeadEmailed is a no-op for an unknown conversation", async () => {
+    await memoryStore.markLeadEmailed("local-does-not-exist");
+  });
+
   console.log("\n" + passed + " passed");
 }
 
