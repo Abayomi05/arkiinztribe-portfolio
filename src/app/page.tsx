@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import MobileNav from "@/components/MobileNav";
 import MotionReveal from "@/components/MotionReveal";
-import SystemBoot from "@/components/SystemBoot";
+import MotionIntro from "@/components/MotionIntro";
 import AgentPanel from "@/components/AgentPanel";
 import ProjectBriefMailButton from "@/components/ProjectBriefMailButton";
 
@@ -68,7 +68,7 @@ const projects = [
 export default function Home() {
   return (
     <main className="system-page">
-      <SystemBoot />
+      <MotionIntro />
 
       <nav className="system-navbar">
         <Link href="/" className="system-logo" aria-label="ARKIINZTRIBE home">

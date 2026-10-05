@@ -1,46 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
+import { deliverProjectBrief } from "@/lib/brief-mailer";
+import { clientKey, rateLimit } from "@/lib/rate-limit";
+import {
+  isValidEmail,
+  sanitizeBrief,
+} from "@/lib/validation";
 
-const MAX_FIELD = 2000;
-
-function clean(value: unknown) {
-  return typeof value === "string" ? value.trim() : "";
-}
-
-function validEmail(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
+const RATE_LIMIT = 5;
+const RATE_WINDOW_MS = 10 * 60 * 1000;
 
 export async function POST(request: NextRequest) {
+  const limit = rateLimit(
+    clientKey(request, "project-brief"),
+    RATE_LIMIT,
+    RATE_WINDOW_MS,
+  );
+
+  if (!limit.ok) {
+    return NextResponse.json(
+      {
+        error: `Too many briefs submitted. Try again in ${limit.retryAfterSeconds} seconds.`,
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(limit.retryAfterSeconds) },
+      },
+    );
+  }
+
   try {
     const body = await request.json();
+    const { brief, invalid } = sanitizeBrief(body);
 
-    const name = clean(body.name);
-    const email = clean(body.email);
-    const project = clean(body.project);
-    const problem = clean(body.problem);
-    const goals = clean(body.goals);
-    const timeline = clean(body.timeline);
-    const budget = clean(body.budget);
-
-    const fields = {
-      name,
-      email,
-      project,
-      problem,
-      goals,
-      timeline,
-      budget,
-    };
-
-    for (const [key, value] of Object.entries(fields)) {
-      if (value.length > MAX_FIELD) {
-        return NextResponse.json(
-          { error: `${key} is too long.` },
-          { status: 400 },
-        );
-      }
+    if (invalid.length > 0) {
+      return NextResponse.json(
+        { error: `Invalid field: ${invalid.join(", ")}.` },
+        { status: 400 },
+      );
     }
+
+    const { email, project } = brief;
 
     if (!project) {
       return NextResponse.json(
@@ -49,63 +48,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!email || !validEmail(email)) {
+    if (!email || !isValidEmail(email)) {
       return NextResponse.json(
         { error: "A valid email is required." },
         { status: 400 },
       );
     }
 
-    const key = process.env.RESEND_API_KEY;
-    const destination = process.env.PROJECT_BRIEF_TO_EMAIL;
+    const result = await deliverProjectBrief(
+      brief,
+      "the ARKIINZTRIBE direct project brief form",
+    );
 
-    if (!key || !destination) {
-      console.error("PROJECT_BRIEF_CONFIG_MISSING");
-
-      return NextResponse.json(
-        { error: "Project brief transmission is not configured." },
-        { status: 500 },
-      );
-    }
-
-    const resend = new Resend(key);
-
-    const { error } = await resend.emails.send({
-      from:
-        process.env.PROJECT_BRIEF_FROM_EMAIL ||
-        "ARKIINZTRIBE <onboarding@resend.dev>",
-      to: [destination],
-      replyTo: email,
-      subject: `NEW ARKIINZTRIBE PROJECT BRIEF — ${project}`,
-      text: [
-        "NEW ARKIINZTRIBE PROJECT BRIEF",
-        "",
-        `Name: ${name || "Not provided"}`,
-        `Email: ${email}`,
-        "",
-        `Project: ${project}`,
-        "",
-        `Problem / Need: ${problem || "Not provided"}`,
-        "",
-        `Goals: ${goals || "Not provided"}`,
-        "",
-        `Timeline: ${timeline || "Not provided"}`,
-        "",
-        `Budget: ${budget || "Not provided"}`,
-        "",
-        "Submitted through the ARKIINZTRIBE TRANSMIT PROJECT BRIEF system.",
-      ].join("\n"),
-    });
-
-    if (error) {
-      console.error(
-        "PROJECT_BRIEF_DIRECT_RESEND_ERROR",
-        JSON.stringify(error, null, 2),
-      );
-
+    if (result.error) {
       return NextResponse.json(
         { error: "Project brief delivery failed." },
         { status: 502 },
+      );
+    }
+
+    if (!result.delivered) {
+      return NextResponse.json(
+        { error: "Project brief transmission is not configured." },
+        { status: 500 },
       );
     }
 

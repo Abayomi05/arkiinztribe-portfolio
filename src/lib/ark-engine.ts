@@ -28,6 +28,35 @@ const SERVICES = [
   "Brand Systems",
 ];
 
+const WORK_INTENT = ["work", "works", "portfolio", "projects", "case study"];
+
+const SERVICE_INTENT = ["service", "services", "capabilities", "offer"];
+
+/**
+ * True when any keyword appears as a whole word.
+ *
+ * Guards against "network" / "workflow" being treated as "work".
+ */
+function containsWord(haystack: string, keywords: string[]): boolean {
+  return keywords.some((keyword) =>
+    new RegExp(`\\b${keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`).test(
+      haystack,
+    ),
+  );
+}
+
+/**
+ * Multi-word intent match, tolerant of extra whitespace between words.
+ */
+function containsPhrase(haystack: string, phrase: string): boolean {
+  const pattern = phrase
+    .split(" ")
+    .map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join("\\s+");
+
+  return new RegExp(`\\b${pattern}\\b`).test(haystack);
+}
+
 export function createInitialMessage(): ArkMessage {
   return {
     role: "ark",
@@ -84,7 +113,12 @@ export function respondToMessage(
     };
   }
 
-  if (lower.includes("work")) {
+  /*
+   * Intent keywords are matched on word boundaries. A plain
+   * substring check made "network" and "workflow" answer the work
+   * question instead of being captured as a project description.
+   */
+  if (containsWord(lower, WORK_INTENT)) {
     return {
       message: {
         role: "ark",
@@ -96,9 +130,9 @@ export function respondToMessage(
   }
 
   if (
-    lower.includes("service") ||
-    lower.includes("what do you build") ||
-    lower.includes("what can you build")
+    containsWord(lower, SERVICE_INTENT) ||
+    containsPhrase(lower, "what do you build") ||
+    containsPhrase(lower, "what can you build")
   ) {
     return {
       message: {

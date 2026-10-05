@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #050505;
-  --surface: #0b0b0b;
-  --surface-2: #111111;
-  --text: #f4f4f0;
-  --muted: #999994;
-  --line: rgba(255, 255, 255, 0.1);
+  --background: #0b1120;
+  --surface: #141b2e;
+  --surface-2: #1b2440;
+  --text: #f2f5fb;
+  --muted: #98a3bb;
+  --line: rgba(148, 178, 226, 0.14);
   --blue: #4DA3FF;
   --blue-dark: #1E5FBF;
 }
@@ -79,7 +79,7 @@ a {
   align-items: center;
   gap: 14px;
   background: var(--blue);
-  color: #050505;
+  color: #0b1120;
   padding: 14px 20px;
   font-size: 12px;
   font-weight: 800;
@@ -305,7 +305,7 @@ a {
 }
 
 .work {
-  background: #080808;
+  background: #101728;
 }
 
 .project-grid {
@@ -322,7 +322,7 @@ a {
   height: 450px;
   position: relative;
   overflow: hidden;
-  background: #111;
+  background: #1b2440;
   border: 1px solid var(--line);
 }
 
@@ -762,7 +762,7 @@ a {
   align-items: center;
   justify-content: space-between;
   background: var(--blue);
-  color: #050505;
+  color: #0b1120;
   padding: 17px 20px;
   border-radius: 100px;
   font-size: 12px;
@@ -791,7 +791,7 @@ a {
 
 .case-study-page,
 .case-study {
-  background: #080808;
+  background: #101728;
   color: #fff;
   min-height: 100vh;
 }
@@ -866,7 +866,7 @@ a {
 .case-screen {
   min-height: 600px;
   border: 1px solid var(--line);
-  background: #101010;
+  background: #1b2440;
   overflow: hidden;
   position: relative;
 }
@@ -1117,7 +1117,7 @@ a {
   position: absolute;
   right: 12%;
   bottom: 15%;
-  background: #151515;
+  background: #222c4a;
   border: 1px solid var(--line);
   padding: 25px;
   min-width: 230px;
@@ -1275,7 +1275,7 @@ a {
 .project-interface {
   position: absolute;
   inset: 35px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(148, 178, 226, 0.14);
   background: rgba(8, 8, 8, 0.88);
   overflow: hidden;
   z-index: 2;
@@ -1286,7 +1286,7 @@ a {
   display: flex;
   justify-content: space-between;
   padding: 16px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(148, 178, 226, 0.11);
   color: #777;
   font-size: 8px;
   letter-spacing: 2px;
@@ -1336,7 +1336,7 @@ a {
   bottom: 20px;
   padding: 15px 18px;
   min-width: 190px;
-  background: #111;
+  background: #1b2440;
   border: 1px solid rgba(77, 163, 255, 0.2);
   display: flex;
   flex-direction: column;
@@ -1391,7 +1391,7 @@ a {
   display: flex;
   align-items: end;
   gap: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(148, 178, 226, 0.14);
 }
 
 .business-chart i {
@@ -1428,12 +1428,12 @@ a {
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   margin: 0 30px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(148, 178, 226, 0.11);
 }
 
 .business-stats div {
   padding: 15px;
-  background: #0d0d0d;
+  background: #182035;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -1552,7 +1552,7 @@ a {
 
 .premium-case-study {
   min-height: 100vh;
-  background: #050505;
+  background: #0b1120;
   color: #f5f5f5;
 }
 
@@ -1620,15 +1620,15 @@ a {
   max-width: 1400px;
   min-height: 650px;
   margin: 0 auto;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #090909;
+  border: 1px solid rgba(148, 178, 226, 0.14);
+  background: #121829;
   overflow: hidden;
 }
 
 .showcase-topbar {
   height: 52px;
   padding: 0 22px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(148, 178, 226, 0.11);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1709,7 +1709,7 @@ a {
   height: 250px;
   right: 18%;
   top: 28%;
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(148, 178, 226, 0.14);
 }
 
 .premium-case-overview,
@@ -1752,7 +1752,7 @@ a {
 }
 
 .premium-case-solution {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(148, 178, 226, 0.11);
 }
 
 .premium-solution-grid {
@@ -1764,7 +1764,7 @@ a {
 
 .premium-capabilities {
   margin-top: 60px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(148, 178, 226, 0.14);
 }
 
 .premium-capabilities div {
@@ -1772,7 +1772,7 @@ a {
   gap: 25px;
   align-items: center;
   padding: 22px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(148, 178, 226, 0.11);
 }
 
 .premium-capabilities span {
@@ -1785,7 +1785,7 @@ a {
 }
 
 .premium-metrics {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(148, 178, 226, 0.11);
 }
 
 .premium-metric-grid {
@@ -1793,13 +1793,13 @@ a {
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   margin-top: 80px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(148, 178, 226, 0.11);
 }
 
 .premium-metric {
   min-height: 260px;
   padding: 30px;
-  background: #080808;
+  background: #101728;
 }
 
 .premium-metric span {
@@ -1818,7 +1818,7 @@ a {
 }
 
 .premium-stack {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(148, 178, 226, 0.11);
 }
 
 .premium-stack h2 {
@@ -1833,7 +1833,7 @@ a {
 
 .premium-stack-grid span {
   padding: 15px 22px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(148, 178, 226, 0.16);
   color: #aaa;
   font-size: 11px;
 }
@@ -1841,7 +1841,7 @@ a {
 .premium-case-cta {
   padding: 160px 6vw;
   text-align: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(148, 178, 226, 0.11);
 }
 
 .premium-case-cta h2 {
@@ -1947,7 +1947,7 @@ a {
   justify-content: space-between;
   gap: 20px;
   padding-bottom: 22px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(148, 178, 226, 0.11);
   color: #666;
   font-size: 9px;
   letter-spacing: 2px;
@@ -1964,13 +1964,13 @@ a {
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   margin-top: 35px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(148, 178, 226, 0.11);
 }
 
 .business-dashboard-grid > div {
   min-height: 170px;
   padding: 24px;
-  background: #0b0b0b;
+  background: #141b2e;
 }
 
 .business-dashboard-grid small {
@@ -2004,7 +2004,7 @@ a {
   gap: 18px;
   margin-top: 35px;
   padding: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(148, 178, 226, 0.11);
 }
 
 .business-bars i {
@@ -2099,7 +2099,7 @@ a {
 .project-image-logo {
   object-fit: contain !important;
   padding: 8%;
-  background: #080808;
+  background: #101728;
 }
 
 .project-visual::after {
@@ -2199,74 +2199,14 @@ a {
   --system-blue-soft: rgba(77, 163, 255, 0.12);
   --system-blue: #4DA3FF;
   --system-blue-soft: rgba(77, 163, 255, 0.14);
-  --system-black: #030403;
-  --system-panel: #080a08;
+  --system-black: #070b14;
+  --system-panel: #101728;
   --system-border: rgba(77, 163, 255, 0.16);
-  --system-muted: #737873;
+  --system-muted: #8b95ab;
   position: relative;
   overflow: hidden;
   background: var(--system-black);
-  color: #f4f6f2;
-}
-
-.system-boot {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: grid;
-  place-items: center;
-  background: #020302;
-  animation: bootFade 0.45s ease 2.05s forwards;
-}
-
-.boot-inner {
-  width: min(680px, 88vw);
-}
-
-.boot-brand {
-  margin-bottom: 30px;
-  color: var(--system-blue);
-  font-family: monospace;
-  font-size: 12px;
-  letter-spacing: 5px;
-}
-
-.boot-terminal {
-  border: 1px solid var(--system-border);
-  background: rgba(8, 12, 8, 0.9);
-  box-shadow: 0 0 80px rgba(77, 163, 255, 0.06);
-}
-
-.boot-terminal-top,
-.terminal-head,
-.lab-console-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  border-bottom: 1px solid var(--system-border);
-  padding: 13px 16px;
-  color: #6f796f;
-  font-family: monospace;
-  font-size: 9px;
-  letter-spacing: 1.5px;
-}
-
-.boot-line {
-  padding: 8px 16px 0;
-  color: #b8c0b7;
-  font-family: monospace;
-  font-size: 11px;
-}
-
-.boot-line span {
-  animation: lineIn 0.25s ease both;
-}
-
-.boot-cursor {
-  padding: 22px 16px;
-  color: var(--system-blue);
-  font-family: monospace;
-  font-size: 11px;
+  color: #eef2f9;
 }
 
 .system-navbar {
@@ -2334,7 +2274,7 @@ a {
     linear-gradient(rgba(77, 163, 255, 0.18) 1px, transparent 1px),
     linear-gradient(90deg, rgba(77, 163, 255, 0.18) 1px, transparent 1px);
   background-size: 80px 80px;
-  mask-image: linear-gradient(to bottom, black, transparent);
+  mask-image: linear-gradient(to bottom, #0b1120, transparent);
 }
 
 .hero-scanline {
@@ -2432,7 +2372,7 @@ a {
 
 .system-button.primary:hover {
   background: var(--system-blue);
-  color: #030403;
+  color: #070b14;
 }
 
 .hero-telemetry {
@@ -2600,7 +2540,7 @@ a {
   height: 400px;
   overflow: hidden;
   border: 1px solid var(--system-border);
-  background: #070907;
+  background: #0e1424;
 }
 
 .project-1 .system-project-visual {
@@ -2743,12 +2683,12 @@ a {
 }
 
 .lab-section {
-  background: #050705;
+  background: #0b1120;
 }
 
 .lab-console {
   border: 1px solid var(--system-border);
-  background: #030503;
+  background: #070b14;
 }
 
 .lab-console-head {
@@ -2972,7 +2912,7 @@ a {
   display: flex;
   justify-content: space-between;
   padding: 13px 0;
-  border-bottom: 1px solid #151a15;
+  border-bottom: 1px solid #222c4a;
   color: #b8beb8;
   font-family: monospace;
   font-size: 9px;
@@ -2987,7 +2927,7 @@ a {
   display: flex;
   justify-content: space-between;
   padding: 12px 20px;
-  background: #070b07;
+  background: #0e1424;
 }
 
 .agent-trigger {
@@ -2998,7 +2938,7 @@ a {
   padding: 7px 14px 7px 7px;
   border: 1px solid var(--system-blue);
   border-radius: 0;
-  background: #050805;
+  background: #0b1120;
   color: var(--system-blue);
   cursor: pointer;
   font-family: monospace;
@@ -3012,18 +2952,11 @@ a {
   height: 32px;
   place-items: center;
   background: var(--system-blue);
-  color: #030403;
+  color: #070b14;
   font-size: 13px;
   font-weight: 800;
 }
 
-@keyframes bootFade {
-  to {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-}
 
 @keyframes lineIn {
   from {
@@ -3177,10 +3110,8 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .system-boot,
   .pulse-dot,
-  .typing-cursor,
-  .boot-line span {
+  .typing-cursor {
     animation: none;
   }
 
@@ -3224,8 +3155,8 @@ a {
   display: flex;
   align-items: center;
   gap: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(148, 178, 226, 0.16);
+  border-bottom: 1px solid rgba(148, 178, 226, 0.16);
   padding: 10px 0;
 }
 
@@ -3268,7 +3199,7 @@ a {
 .system-project.project-1 .system-project-visual {
   background:
     radial-gradient(circle at 72% 28%, rgba(77, 163, 255, 0.16), transparent 30%),
-    linear-gradient(135deg, #07110d 0%, #050807 55%, #0a1711 100%);
+    linear-gradient(135deg, #0a1420 0%, #0b1120 55%, #0d1a2b 100%);
 }
 
 .system-project.project-1 .project-grid-bg {
@@ -3278,8 +3209,8 @@ a {
 /* Business Systems — structured data / operations */
 .system-project.project-2 .system-project-visual {
   background:
-    radial-gradient(circle at 25% 35%, rgba(255, 255, 255, 0.08), transparent 28%),
-    linear-gradient(135deg, #0b0b0b 0%, #111111 50%, #070707 100%);
+    radial-gradient(circle at 25% 35%, rgba(148, 178, 226, 0.11), transparent 28%),
+    linear-gradient(135deg, #141b2e 0%, #1b2440 50%, #0e1424 100%);
 }
 
 .system-project.project-2 .project-grid-bg {
@@ -3298,7 +3229,7 @@ a {
 .system-project.project-3 .system-project-visual {
   background:
     radial-gradient(circle at 65% 30%, rgba(255, 255, 255, 0.10), transparent 25%),
-    linear-gradient(135deg, #111111 0%, #050505 58%, #161616 100%);
+    linear-gradient(135deg, #1b2440 0%, #0b1120 58%, #242e4e 100%);
 }
 
 .system-project.project-3 .project-grid-bg {
@@ -3333,7 +3264,7 @@ a {
   background:
     radial-gradient(circle at 76% 24%, rgba(77, 163, 255, 0.18), transparent 24%),
     radial-gradient(circle at 18% 78%, rgba(77, 163, 255, 0.10), transparent 30%),
-    linear-gradient(135deg, #06100a 0%, #030603 52%, #0b1710 100%);
+    linear-gradient(135deg, #0a1220 0%, #070b14 52%, #101d30 100%);
 }
 
 .system-project.project-1 .project-grid-bg {
@@ -3355,7 +3286,7 @@ a {
   background:
     linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
     linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-    linear-gradient(135deg, #0d0d0d 0%, #111 48%, #060606 100%);
+    linear-gradient(135deg, #182035 0%, #1b2440 48%, #0d1322 100%);
   background-size: 32px 32px, 32px 32px, auto;
 }
 
@@ -3377,7 +3308,7 @@ a {
 .system-project.project-3 .system-project-visual {
   background:
     radial-gradient(circle at 70% 25%, rgba(255,255,255,.12), transparent 22%),
-    linear-gradient(135deg, #151515 0%, #080808 50%, #111 100%);
+    linear-gradient(135deg, #222c4a 0%, #101728 50%, #1b2440 100%);
 }
 
 .system-project.project-3 .project-grid-bg {
@@ -3521,7 +3452,7 @@ a {
 
 .agent-trigger:hover {
   transform: translateY(-2px);
-  background: #070c08;
+  background: #0e1424;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.48);
 }
 
@@ -3705,7 +3636,7 @@ a {
   max-height: min(88vh, 820px);
   overflow-y: auto;
   border: 1px solid var(--system-border);
-  background: #050705;
+  background: #0b1120;
   box-shadow: 0 30px 100px rgba(0, 0, 0, 0.65);
   padding: 28px;
 }
@@ -3780,7 +3711,7 @@ a {
   width: 100%;
   border: 1px solid #242a24;
   outline: none;
-  background: #080b08;
+  background: #101728;
   color: #ddd;
   padding: 13px 14px;
   font: inherit;
@@ -3814,7 +3745,7 @@ a {
   flex-direction: column;
   gap: 6px;
   border: 1px solid #1b211b;
-  background: #080b08;
+  background: #101728;
   padding: 14px;
 }
 
@@ -3836,7 +3767,7 @@ a {
   width: 100%;
   border: 1px solid var(--system-blue);
   background: var(--system-blue);
-  color: #030403;
+  color: #070b14;
   padding: 15px 18px;
   cursor: pointer;
   font-family: monospace;
@@ -3890,7 +3821,7 @@ a {
   position: relative;
   overflow: hidden;
   border: 1px solid var(--system-border);
-  background: #050605;
+  background: #0b1120;
 }
 
 /* Shared image behavior */
@@ -3926,9 +3857,9 @@ a {
     ),
     linear-gradient(
       135deg,
-      #06100a 0%,
-      #030603 52%,
-      #09140e 100%
+      #0a1220 0%,
+      #070b14 52%,
+      #0e1a26 100%
     );
 }
 
@@ -3970,9 +3901,9 @@ a {
     ),
     linear-gradient(
       135deg,
-      #0b0c0b 0%,
-      #101210 48%,
-      #050605 100%
+      #141b2e 0%,
+      #1b2440 48%,
+      #0b1120 100%
     );
   background-size: 34px 34px, 34px 34px, auto, auto;
 }
@@ -4011,8 +3942,8 @@ a {
     ),
     linear-gradient(
       135deg,
-      #151615 0%,
-      #080908 52%,
+      #222c4a 0%,
+      #101728 52%,
       #111211 100%
     );
 }
@@ -4156,7 +4087,7 @@ a {
   width: 100%;
   min-height: 520px;
   border: 1px solid var(--system-border);
-  background: #050806;
+  background: #0b1120;
 }
 
 .logistics-dashboard-head {
@@ -4282,5 +4213,94 @@ a {
   .logistics-status-panel {
     border-left: 0;
     border-top: 1px solid var(--system-border);
+  }
+}
+
+/* ==========================================================================
+   Motion intro overlay
+   Paints once, animates only transform/opacity, then unmounts.
+   ========================================================================== */
+
+.motion-intro {
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #0b1120;
+  pointer-events: none;
+}
+
+.motion-intro-inner {
+  width: min(420px, 82vw);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.motion-intro-brand {
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.34em;
+  color: #f2f5fb;
+  text-align: center;
+}
+
+.motion-intro-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-height: 62px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
+  color: #98a3bb;
+}
+
+.motion-intro-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.motion-intro-dot {
+  width: 4px;
+  height: 4px;
+  flex: none;
+  border-radius: 50%;
+  background: #4da3ff;
+  box-shadow: 0 0 8px rgba(77, 163, 255, 0.7);
+}
+
+.motion-intro-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 11px;
+  background: #4da3ff;
+}
+
+.motion-intro-progress {
+  height: 2px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(148, 178, 226, 0.16);
+}
+
+.motion-intro-progress span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform-origin: left center;
+  background: linear-gradient(90deg, #1e5fbf, #4da3ff);
+}
+
+/* Decorative only: never let the overlay intercept clicks. */
+.motion-intro * {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-intro {
+    display: none;
   }
 }
