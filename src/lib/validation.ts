@@ -21,15 +21,23 @@ export const BRIEF_FIELDS = [
 
 export type BriefField = (typeof BRIEF_FIELDS)[number];
 
-/** Per-field limits, sized to what each field is actually for. */
+/**
+ * Per-field limits.
+ *
+ * These were previously tightened to per-field sizes (name 120, timeline 200,
+ * etc). That was an unrequested change which made previously-acceptable briefs
+ * fail validation with "Invalid field", so the original flat 2000 cap is
+ * restored for everything. name/email keep RFC-derived ceilings only because
+ * those are not content limits.
+ */
 export const FIELD_LIMITS: Record<BriefField, number> = {
-  name: 120,
+  name: 2000,
   email: 254,
   project: 2000,
   problem: 2000,
   goals: 2000,
-  timeline: 200,
-  budget: 200,
+  timeline: 2000,
+  budget: 2000,
 };
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;

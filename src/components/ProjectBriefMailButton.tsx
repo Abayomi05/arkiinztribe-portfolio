@@ -213,7 +213,7 @@ export default function ProjectBriefMailButton() {
                   onChange={(event) =>
                     updateField("name", event.target.value)
                   }
-                  maxLength={120}
+                  maxLength={2000}
                   placeholder="Your name"
                   autoComplete="name"
                 />
@@ -282,7 +282,7 @@ export default function ProjectBriefMailButton() {
                   onChange={(event) =>
                     updateField("timeline", event.target.value)
                   }
-                  maxLength={200}
+                  maxLength={2000}
                   placeholder="e.g. 8 weeks"
                 />
               </label>
@@ -294,7 +294,7 @@ export default function ProjectBriefMailButton() {
                   onChange={(event) =>
                     updateField("budget", event.target.value)
                   }
-                  maxLength={200}
+                  maxLength={2000}
                   placeholder="Expected budget"
                 />
               </label>
