@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import "./globals.css";
+import { auth } from "@/lib/auth";
+
+import { toNextJsHandler } from "better-auth/next-js";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -55,14 +59,23 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   return (
-    <html lang="en" data-scroll-behavior="smooth">
-      <body>{children}</body>
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <body>
+        {children}
+      </body>
     </html>
   );
 }
+
+export const GET = toNextJsHandler(auth.handler);
+export const POST = toNextJsHandler(auth.handler);
