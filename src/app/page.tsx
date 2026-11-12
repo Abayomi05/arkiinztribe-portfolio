@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import MobileNav from "@/components/MobileNav";
+import StickyNav from "@/components/StickyNav";
 import MotionReveal from "@/components/MotionReveal";
 import MotionIntro from "@/components/MotionIntro";
 import AgentPanel from "@/components/AgentPanel";
@@ -83,7 +84,8 @@ export default function Home() {
     <main className="system-page min-h-screen bg-[var(--background)] text-[var(--text)]">
       <MotionIntro />
 
-      <nav className="system-navbar">
+      <StickyNav>
+        <nav className="system-navbar">
         <Link href="/" className="system-logo" aria-label="ARKIINZTRIBE home">
           <Image
             src="/brand/Arkiinztribe.png"
@@ -130,10 +132,37 @@ export default function Home() {
 
         <MobileNav />
       </nav>
+      </StickyNav>
 
       <section className="system-hero relative">
         <div className="system-grid absolute inset-0 z-0" />
         <div className="hero-scanline absolute inset-0 z-0 opacity-30" />
+
+        <div className="system-hero-visual">
+          <div className="frame">
+            <div className="frame-topbar">
+              <div className="topbar-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <span className="topbar-title">arkiinztribe.com</span>
+            </div>
+            <div className="frame-body">
+              <Image
+                src="/brand/Arkiinztribe.png"
+                alt="ARKIINZTRIBE — Digital Experiences That Move Businesses"
+                width={280}
+                height={160}
+                className="frame-visual"
+                priority
+              />
+            </div>
+            <div className="frame-foot">
+              <span>Full-stack digital experiences</span>
+            </div>
+          </div>
+        </div>
 
         <div className="system-hero-content relative z-2">
           <div className="system-eyebrow flex items-center gap-3 mb-6">

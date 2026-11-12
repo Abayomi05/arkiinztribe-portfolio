@@ -236,6 +236,10 @@ export const memoryStore: ArkStore = {
 
     leads.set(conversationId, { ...lead, emailed_at: new Date().toISOString() });
   },
+
+  async listBriefs(): Promise<ArkLeadRow[]> {
+    return Array.from(leads.values());
+  },
 };
 
 /**

@@ -4384,6 +4384,138 @@ a {
   pointer-events: none;
 }
 
+/* ============================================================
+   PORTFOLIO REAL-ELEMENT PASS
+   ============================================================ */
+
+/* Sticky navbar + scroll shadow */
+.system-navbar {
+  position: sticky;
+  top: 0;
+}
+.system-navbar.is-scrolled {
+  box-shadow: 0 1px 0 var(--system-border), 0 10px 30px rgba(0, 0, 0, 0.35);
+  background: rgba(3, 4, 3, 0.98);
+}
+
+/* Hero product visual (real browser-frame mockup using the actual brand) */
+.system-hero-visual {
+  position: absolute;
+  right: min(18vw, 220px);
+  top: 50%;
+  transform: translateY(-45%);
+  display: grid;
+  place-items: center;
+  width: min(380px, 48vw);
+  height: min(360px, 42vh);
+  z-index: 0;
+  pointer-events: none;
+}
+.system-hero-visual .frame {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--system-border);
+  border-radius: 16px;
+  background: linear-gradient(165deg, #111726, #0a0e18);
+  padding: 16px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+.system-hero-visual .frame-topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--system-border);
+}
+.system-hero-visual .frame-topbar .topbar-dots {
+  display: flex;
+  gap: 5px;
+}
+.system-hero-visual .frame-topbar .topbar-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3a4658;
+}
+.system-hero-visual .frame-topbar .topbar-dots span:first-child {
+  background: #e74c5e;
+}
+.system-hero-visual .frame-topbar .topbar-dots span:last-child {
+  background: #34d399;
+}
+.system-hero-visual .frame-topbar .topbar-title {
+  margin-left: 8px;
+  color: #6b7885;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.system-hero-visual .frame-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  min-height: 0;
+}
+.system-hero-visual .frame-visual {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.system-hero-visual .frame-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--system-border);
+  color: #6b7885;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* Stats band */
+.system-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  padding: 72px 6vw;
+  background: var(--system-black);
+  border-top: 1px solid var(--system-border);
+  border-bottom: 1px solid var(--system-border);
+}
+.system-stats .stat {
+  padding: 8px 16px;
+}
+.system-stats .stat .num {
+  font-size: clamp(46px, 8vw, 86px);
+  font-weight: 800;
+  letter-spacing: -4px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #4da3ff, #7cbbff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+.system-stats .stat .label {
+  color: var(--system-muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+
+/* Seam between hero/stats and the rest */
+.system-seam {
+  border-top: 1px solid var(--system-border);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .motion-intro {
     display: none;

@@ -76,6 +76,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
-export const GET = toNextJsHandler(auth.handler);
-export const POST = toNextJsHandler(auth.handler);

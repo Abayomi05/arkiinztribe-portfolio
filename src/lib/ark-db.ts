@@ -2,6 +2,7 @@ import { Pool } from "@neondatabase/serverless";
 import { memoryStore } from "@/lib/ark-memory";
 import type { ArkStore } from "@/lib/ark-store";
 import type { ProjectBrief } from "@/lib/ark-engine";
+import type { ArkLeadRow } from "@/lib/ark-store";
 
 const databaseUrl = process.env.DATABASE_URL;
 
@@ -199,7 +200,6 @@ function neonStore(db: Pool): ArkStore {
           }
         : null;
     },
-
     async markLeadEmailed(conversationId: string) {
       await db.query(
         `UPDATE ark_leads
@@ -209,7 +209,17 @@ function neonStore(db: Pool): ArkStore {
         [conversationId],
       );
     },
+    async listBriefs() {
+      const result = await db.query(
+        `SELECT id, conversation_id, session_id, name, email, project,
+                problem, goals, timeline, budget, status, created_at, emailed_at
+         FROM ark_leads
+         ORDER BY created_at DESC`,
+      );
+      return result.rows as ArkLeadRow[];
+    },
   };
+
 }
 
 export const ensureArkSchema = () => store.ensureArkSchema();
@@ -244,3 +254,5 @@ export const createArkLead = (
 
 export const markLeadEmailed = (conversationId: string) =>
   store.markLeadEmailed(conversationId);
+
+export const listBriefs = () => store.listBriefs();

@@ -70,6 +70,8 @@ export interface ArkStore {
     brief: ProjectBrief,
   ): Promise<ArkLeadRow | null>;
 
+  listBriefs(): Promise<ArkLeadRow[]>;
+
   /**
    * Record that the inbox email for a lead was accepted.
    *

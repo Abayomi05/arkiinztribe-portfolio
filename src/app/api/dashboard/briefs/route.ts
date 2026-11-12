@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { arkStore } from "@/lib/ark-db";
+import { listBriefs } from "@/lib/ark-db";
 
 export async function GET() {
   try {
